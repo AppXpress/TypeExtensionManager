@@ -12,15 +12,16 @@
 import utils from './utils'
 import CONSTANTS from './constants'
 
-let {essentials} = CONSTANTS
-let {initModules, writeUserData} = utils
+let {initModules, writeUserData, getBasicKey, processCustomer} = utils
 
 const main = async () => {
-  await initModules()
-  if(!essentials.existing){
-    await writeUserData()
-    console.log(essentials)
-  }
+  await initModules().then(async (essentials) => {
+    if(!essentials.existing){
+        writeUserData()
+    }
+    await getBasicKey()
+    await processCustomer(essentials)
+  })
 }
 
 main()

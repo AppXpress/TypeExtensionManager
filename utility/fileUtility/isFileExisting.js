@@ -3,15 +3,16 @@ import fs from 'fs'
 export default (path, fileName, fileExtension) => {
     return new Promise((resolve, reject) => {
         if(path && fileExtension && fileName){
-            fs.readFile(`${path}/${fileName}.${fileExtension}`, (err, data) => {
-                if(err){
-                    reject(false)
+            try{
+                let data = fs.readFileSync(`${path}/${fileName}.${fileExtension}`, 'utf8')
+                if(data){
+                    resolve(true)
                 }else{
-                    if(data != ``){
-                        resolve(true)
-                    }
+                    reject(false)
                 }
-            })
+            }catch(fe){
+                reject(false)                
+            }
         }
     })
 }

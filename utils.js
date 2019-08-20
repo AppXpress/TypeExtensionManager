@@ -5,13 +5,14 @@ import Cryptr from 'cryptr'
 const cryptr = new Cryptr('gtnexusisBest@123')
 
 const {createFile, readFile, writeToFile, isFileExisting} = require('./utility/fileUtility')
+const {getCustomerName, getDocumentType, getRulesetType, setupCustomerDirectories} = require('./utility/customerUtility')
 
 let {
-    GENERAL:{ENCODING_UTF8},
+    GENERAL:{ENCODING_UTF8, BASE_64, BASIC},
     configFile,
     writeOut,
     fields: {EXISTING, PRESENT_WORKING_DIR, CUSTOMER_DIRECTORY, CUSTOMER_TEST_DIRECTORY, CUSTOMER, TEST, FILE, CREDENTIALS
-        ,USER_NAME, PASSWORD, DATA_KEY,USER
+        ,USER_NAME, PASSWORD, DATA_KEY,USER, AUTHORIZATION
     },
     rl,
     essentials
@@ -26,7 +27,7 @@ let initModules = () => {
             readFile(`.`, `${configFile}`, `ini`).then((data) => {
                 essentials = JSON.parse(data)
                 essentials[EXISTING] = isExisting
-                resolve()
+                resolve(essentials)
             })
         }).catch((nonExistent) => {
             createFile(`.`,`${configFile}`,`ini`).then(() => {
@@ -86,13 +87,45 @@ let getUserCredentials = () => {
     })
 }
 
+let getBasicKey = () => {
+    return new Promise((resolve, reject) =>{
+        if(essentials[USER][USER_NAME] && essentials[USER][PASSWORD]){
+            let username = essentials[USER][USER_NAME]
+            let password = cryptr.decrypt(essentials[USER][PASSWORD])
+            let buffer = new Buffer(`${username}:${password}`)
+            if(buffer){
+                essentials[USER][AUTHORIZATION] = `${BASIC} ${buffer.toString(BASE_64)}`
+                resolve()
+            }else{
+                reject()
+            }
+        }
+    })
+}
+
 let writeUserData = async () => {
     await getPlatformLocation()
     await getUserCredentials()
     await writeToFile(`.`, `${configFile}`, `ini`,writeOut)
 }
+/**
+ * Process Customer - Gets all data required to setup TypeExtension and Axus
+ * @param {*} essentials 
+ */
+let processCustomer = (essentials) => {
+    return new Promise(async (resolve, reject) => {
+        await getCustomerName(essentials)
+        await getDocumentType(essentials)
+        await getRulesetType(essentials)
+        await setupCustomerDirectories(essentials)
+        console.log(essentials)
+    })
+}
+
 
 export default {
     initModules,
-    writeUserData    
+    writeUserData,
+    getBasicKey,
+    processCustomer  
 }

@@ -10,7 +10,8 @@
   "dependencies": {
     "cryptr": "^4.0.2",
     "moment": "^2.24.0",
-    "needle": "^2.4.0"
+    "needle": "^2.4.0",
+    "shelljs": "^0.8.3"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

@@ -28,8 +28,10 @@ const fields = {
     CUSTOMER_PLATFORM_PATH: `customerPlatformPath`,
     CUSTOMER_PLATFORM_TEST_PATH: `customerPlantformTestPath`,
     DOCUMENT_TYPE: `documentType`,
+    DOC_SHORT_FORM: 'docShortForm',
     JIRA_NUMBER: `jiraNumber`,
     PRESENT_WORKING_DIR: `pwd`,
+    AUTHORIZATION: `Authorization`,
     FILE: `file`,
     HTTP_HEADER:{
         headers:{
@@ -43,9 +45,10 @@ const fields = {
 }
 
 
-
 const GENERAL = {
-    ENCODING_UTF8: `utf8`
+    ENCODING_UTF8: `utf8`,
+    BASIC: `Basic`,
+    BASE_64: `base64`
 }
 
 const GTNEXUS = {
@@ -160,8 +163,17 @@ const DOCTYPES = {
         get FETCH_URL() {
             return `${this.PACKING_PLAN_DETAIL}`
         }
+    },
+    DOC:{
+        DOC: `Doc`,
+        DOCUMENT: `Document`,
+        get FULL_FORM() {
+            return this.DOCUMENT
+        },
+        get SHORT_FORM(){
+            return this.DOC.toUpperCase()
+        }
     }
-
 }
 
 const EVENTS = {
@@ -185,6 +197,18 @@ const RULE_SET = {
     }
 }
 
+const QUESTIONS = {
+    QUESTION_DOCUMENT_TYPE: `Document Type - ${DOCTYPES.PO.SHORT_FORM}|${DOCTYPES.PL.SHORT_FORM}|${DOCTYPES.PP.SHORT_FORM}|${DOCTYPES.INV.SHORT_FORM}|Custom Document Name:`,
+    QUESTION_RULESET_TYPE: `Type of ruleset:(${EVENTS.VALIDATION}|${EVENTS.POPULATION}) - ${EVENTS.POP},${EVENTS.VLD},${EVENTS.POPS},${EVENTS.VLDS},${EVENTS.POPULATIONS},${EVENTS.VALIDATIONS} ?`
+}
+const MESSAGES = {
+    ERRORS:{
+        NO_DOC_TYPE_PROVIDED: `Please provide the document type[${DOCTYPES.PO.SHORT_FORM}|${DOCTYPES.PL.SHORT_FORM}|${DOCTYPES.PP.SHORT_FORM}|${DOCTYPES.INV.SHORT_FORM}|Custom Document Name]`,
+        NO_RULESET_TYPE_RPOVIDED: `Please provide the type of TypeExtension [${EVENTS.POPULATION}|${EVENTS.VALIDATION}]`,
+        FILE_CREATION_ERROR: `FATAL: BAD ARGS for File`
+    }
+}
+
 
 
 export default{
@@ -198,5 +222,8 @@ export default{
     configFile,
     FILES,
     GENERAL,
+    QUESTIONS,
+    MESSAGES,
+    EVENTS,
     fields
 }
