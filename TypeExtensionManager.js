@@ -19,6 +19,8 @@ const main = async () => {
     console.log(essentials)
     if(!essentials.existing){
         await writeUserData()
+        console.log(`Since this is the first time using the tool kindly restart the tool.`)
+        process.exit(0)
     }
     await getBasicKey(essentials)
     await processCustomer(essentials)
