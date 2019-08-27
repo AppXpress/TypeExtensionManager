@@ -5,7 +5,7 @@ import Cryptr from 'cryptr'
 const cryptr = new Cryptr('gtnexusisBest@123')
 
 const {createFile, readFile, writeToFile, isFileExisting} = require('./utility/fileUtility')
-const {getCustomerName, getDocumentType, getRulesetType, setupCustomerDirectories} = require('./utility/customerUtility')
+const {getCustomerName, getDocumentType, getRulesetType, setupCustomerDirectories, setupCustomerFiles, jirafy, setupCutomerBaseCode, setupSampleData, setupCustomerResources} = require('./utility/customerUtility')
 
 let {
     GENERAL:{ENCODING_UTF8, BASE_64, BASIC},
@@ -30,12 +30,13 @@ let initModules = () => {
                 resolve(essentials)
             })
         }).catch((nonExistent) => {
-            createFile(`.`,`${configFile}`,`ini`).then(() => {
+            createFile(`.`,`${configFile}`,`.ini`).then(() => {
                 essentials[EXISTING] = nonExistent
-                resolve()
+                resolve(essentials)
             })
             .catch((err) => {
                 console.log(err)
+                reject()
             })
         })
     })
@@ -62,18 +63,18 @@ let getUserCredentials = () => {
     return new Promise((resolve, reject) => {
         rl.question(`Enter your SUPORTQ Credentials(Need this to fetch data and create sample files for your module)\nUserName:\n`, (username) =>{
             if(username){
-                essentials[CREDENTIALS] = {}
+                essentials[USER] = {}
                 console.log(`Password:`)
                 rl.stdoutMuted = true;
                 rl.question(``, (password) => {
                     rl.stdoutMuted = false;
-                    essentials[CREDENTIALS][USER_NAME] = username
-                    essentials[CREDENTIALS][PASSWORD] = cryptr.encrypt(password)
+                    essentials[USER][USER_NAME] = username
+                    essentials[USER][PASSWORD] = cryptr.encrypt(password)
                     console.log("Data Key:")
                     rl.question(``, (dataKey) => {
                         if(dataKey){
-                            essentials[CREDENTIALS][DATA_KEY] = dataKey
-                            writeOut[USER] = essentials[CREDENTIALS]
+                            essentials[USER][DATA_KEY] = dataKey
+                            writeOut[USER] = essentials[USER]
                             resolve()
                         }else{
                             reject()
@@ -87,7 +88,8 @@ let getUserCredentials = () => {
     })
 }
 
-let getBasicKey = () => {
+let getBasicKey = (essentials) => {
+    console.log(essentials)
     return new Promise((resolve, reject) =>{
         if(essentials[USER][USER_NAME] && essentials[USER][PASSWORD]){
             let username = essentials[USER][USER_NAME]
@@ -106,7 +108,7 @@ let getBasicKey = () => {
 let writeUserData = async () => {
     await getPlatformLocation()
     await getUserCredentials()
-    await writeToFile(`.`, `${configFile}`, `ini`,writeOut)
+    await writeToFile(`.`, `${configFile}`, `.ini`,writeOut)
 }
 /**
  * Process Customer - Gets all data required to setup TypeExtension and Axus
@@ -118,7 +120,12 @@ let processCustomer = (essentials) => {
         await getDocumentType(essentials)
         await getRulesetType(essentials)
         await setupCustomerDirectories(essentials)
-        console.log(essentials)
+        await setupCustomerFiles(essentials)
+        await jirafy(essentials)
+        await setupCutomerBaseCode(essentials)
+        await setupSampleData(essentials)
+        await setupCustomerResources(essentials)
+        resolve()
     })
 }
 

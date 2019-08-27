@@ -16,11 +16,13 @@ let {initModules, writeUserData, getBasicKey, processCustomer} = utils
 
 const main = async () => {
   await initModules().then(async (essentials) => {
+    console.log(essentials)
     if(!essentials.existing){
-        writeUserData()
+        await writeUserData()
     }
-    await getBasicKey()
+    await getBasicKey(essentials)
     await processCustomer(essentials)
+    process.exit()
   })
 }
 

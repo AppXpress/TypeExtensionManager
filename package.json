@@ -8,6 +8,7 @@
     "start": "babel-node TypeExtensionManager.js --presets es2015,stage-2"
   },
   "dependencies": {
+    "cli-progress": "^3.0.0",
     "cryptr": "^4.0.2",
     "moment": "^2.24.0",
     "needle": "^2.4.0",

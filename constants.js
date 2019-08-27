@@ -32,6 +32,7 @@ const fields = {
     JIRA_NUMBER: `jiraNumber`,
     PRESENT_WORKING_DIR: `pwd`,
     AUTHORIZATION: `Authorization`,
+    OBJECT_FIELDS: `OBJECT_FIELDS`,
     FILE: `file`,
     HTTP_HEADER:{
         headers:{
@@ -41,14 +42,33 @@ const fields = {
     },
     ENVIRONMENT: `environment`,
     SAMPLE_REF_NUMBER: `sampleRefNumber`,
-    USER: `user`
+    USER: `user`,
+    QUERY_URL: `queryUrl`,
+    FETCH_URL: `fetchUrl`,
+    PO_NUMBERS_LIST: 'poNumbersList'
 }
 
 
 const GENERAL = {
     ENCODING_UTF8: `utf8`,
     BASIC: `Basic`,
-    BASE_64: `base64`
+    BASE_64: `base64`,
+    JIRA_PSO_HEADER: `PSO-`,
+    JIRA_BUG_HEADER: `GTBUG-`,
+    JIRA_DEFAULT_TEXT: `CHANGEME`,
+    DATE_FORMAT: `MM/DD/YYYY`,
+    WHO: `¯\\_(ツ)_/¯`,
+    DESCRIPTION: `UPDATE THE DESCRIPTION`,
+    AFFIRM: [`YES`, `Y`],
+    NEGATIVE: [`NO`, `N`],
+    GET: `get`,
+    POST: `post`,
+}
+
+const GENERAL_GTNEXUS_OBJECTS = {
+    RESULT: `result`,
+    SHIPMENT_ITEM: `shipmentItem`,
+    PO_NUMBER: `poNumber`
 }
 
 const GTNEXUS = {
@@ -76,7 +96,7 @@ const FILES = {
     EXTENSIONS: {
         JS: `.js`,
         SPEC: `.spec.js`,
-        JSON: `.json`,
+        _JSON: `.json`,
         INI: `.ini`
     },
     RESOURCES: `resources`,
@@ -199,13 +219,28 @@ const RULE_SET = {
 
 const QUESTIONS = {
     QUESTION_DOCUMENT_TYPE: `Document Type - ${DOCTYPES.PO.SHORT_FORM}|${DOCTYPES.PL.SHORT_FORM}|${DOCTYPES.PP.SHORT_FORM}|${DOCTYPES.INV.SHORT_FORM}|Custom Document Name:`,
-    QUESTION_RULESET_TYPE: `Type of ruleset:(${EVENTS.VALIDATION}|${EVENTS.POPULATION}) - ${EVENTS.POP},${EVENTS.VLD},${EVENTS.POPS},${EVENTS.VLDS},${EVENTS.POPULATIONS},${EVENTS.VALIDATIONS} ?`
+    QUESTION_RULESET_TYPE: `Type of ruleset:(${EVENTS.VALIDATION}|${EVENTS.POPULATION}) - ${EVENTS.POP},${EVENTS.VLD},${EVENTS.POPS},${EVENTS.VLDS},${EVENTS.POPULATIONS},${EVENTS.VALIDATIONS} ?`,
+    QUESTION_JIRA_NUMBER: `Add your JIRA#:`,
+    QUESTION_SAMPLE_DATA_REQUEST: `Would you like me to fetch some sample data for you?[Y|N]`,
+    QUESTION_SAMPLE_DATA: `Provide your SampleRef#`,
+    QUESTION_PICK_ENV: `Which environment would you like to fetch the data from?\n1.SUPPORTQ\n2.PREPROD\n`,
+    QUESTION_SAMPLE_PO_DATA: `Do you want me to fetch all the realted PO Documents?[Y|N]`
 }
 const MESSAGES = {
     ERRORS:{
         NO_DOC_TYPE_PROVIDED: `Please provide the document type[${DOCTYPES.PO.SHORT_FORM}|${DOCTYPES.PL.SHORT_FORM}|${DOCTYPES.PP.SHORT_FORM}|${DOCTYPES.INV.SHORT_FORM}|Custom Document Name]`,
         NO_RULESET_TYPE_RPOVIDED: `Please provide the type of TypeExtension [${EVENTS.POPULATION}|${EVENTS.VALIDATION}]`,
-        FILE_CREATION_ERROR: `FATAL: BAD ARGS for File`
+        FILE_CREATION_ERROR: `FATAL: BAD ARGS for File`,
+        FAILED_WRITING_FILE: `FATAL: Could not write to file`
+    },
+    INFO:{
+        COULD_NOT_CREATE_AXUS_TEST_FILE: `Unfortunatly I could not create your Axus test file`,
+        COULD_NOT_CREATE_TEST_FOLDER: `Unfortunatly I could not create your Test Folder`,
+        INITIAL_CODE_SETUP: `I have set your intial code up`,
+        NOT_MUCH_INFO: `I do not have much info to create your file`,
+        DATA_ALREADY_PRESENT: `Looks like you already have some code in there`,
+        DID_NOT_FETCH_DATA: `Okay! I did not setup any sample data for you`,
+        PICKED_ENV: `Okay so you picked `
     }
 }
 
@@ -225,5 +260,6 @@ export default{
     QUESTIONS,
     MESSAGES,
     EVENTS,
+    GENERAL_GTNEXUS_OBJECTS,
     fields
 }
