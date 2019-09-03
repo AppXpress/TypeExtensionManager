@@ -24,6 +24,7 @@ const main = async () => {
     }
     await getBasicKey(essentials)
     await processCustomer(essentials)
+    console.log(essentials)
     process.exit()
   })
 }

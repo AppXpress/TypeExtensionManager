@@ -8,6 +8,7 @@ export default (path, fileName, fileExtension) => {
                 if(data){
                     resolve(true)
                 }else{
+                    console.log(data)
                     reject(false)
                 }
             }catch(fe){

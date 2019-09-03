@@ -2,7 +2,7 @@ import fs from 'fs'
 import CONSTANTS from '../../constants'
 import moment from 'moment'
 const {
-    fields:{CUSTOMER, DOC_SHORT_FORM, JIRA_NUMBER, USER, USER_NAME, FILE, CUSTOMER_DIRECTORY, CUSTOMER_NAME, DOCUMENT_TYPE, RULE_SET_TYPE},
+    fields:{CUSTOMER, DOC_SHORT_FORM, JIRA_NUMBER, USER, USER_NAME, FILE, CUSTOMER_DIRECTORY, CUSTOMER_NAME, DOCUMENT_TYPE, RULE_SET_TYPE, EVENT},
     FILES:{EXTENSIONS:{JS, SPEC}},
     MESSAGES:{INFO:{COULD_NOT_CREATE_AXUS_TEST_FILE}},
     GENERAL:{DATE_FORMAT, WHO, DESCRIPTION, ENCODING_UTF8},
@@ -35,6 +35,7 @@ export default (essentials) => {
 
 
 let constructCode = (essentials, jiraNumber, date, who, description)=>{
+    let eventType = `${essentials[CUSTOMER][EVENT]}`
     let sampleCode = `
   /**
    *   C H A N G E    L  O G
@@ -43,7 +44,7 @@ let constructCode = (essentials, jiraNumber, date, who, description)=>{
    *  -------------------  ----------  ---  ---------------------------------------------------------------
    *	${jiraNumber}\t\t\t\t\t\t ${date}\t\t${who}\t${description}
    */
-    function fnOnEvent(${(essentials[CUSTOMER][DOC_SHORT_FORM]).toLowerCase()}){
+    function fnOn${eventType}(${(essentials[CUSTOMER][DOC_SHORT_FORM]).toLowerCase()}){
       /**
        * THIS IS AUTO GENERATED 
        */

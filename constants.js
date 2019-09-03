@@ -33,6 +33,8 @@ const fields = {
     PRESENT_WORKING_DIR: `pwd`,
     AUTHORIZATION: `Authorization`,
     OBJECT_FIELDS: `OBJECT_FIELDS`,
+    EVENT: `Event`,
+    IS_SAMPLE_REQUIRED: `isSampleRequired`,
     FILE: `file`,
     HTTP_HEADER:{
         headers:{
@@ -204,7 +206,9 @@ const EVENTS = {
     VALIDATION: `Validation`,
     VALIDATIONS: `Validations`,
     VLD: `Vld`,
-    VLDS: `Vlds`
+    VLDS: `Vlds`,
+    POPULATE: `Populate`,
+    VALIDATE: `Validate`
 }
 
 const RULE_SET = {
