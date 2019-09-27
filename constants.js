@@ -47,7 +47,14 @@ const fields = {
     USER: `user`,
     QUERY_URL: `queryUrl`,
     FETCH_URL: `fetchUrl`,
-    PO_NUMBERS_LIST: 'poNumbersList'
+    DOCUMENT_FETCH_URL:`FETCH_URL`,
+    DOCUMENT_QUERY_URL: `QUERY_URL`,
+    PO_NUMBERS_LIST: 'poNumbersList',
+    SEED_QUERY_FIELD: `SEED_QUERY_FIELD`,
+    ORDERS_FIELD: `ORDERS_FIELD`,
+    QUERIED_OBJECTS: `queriedObjects`,
+    FETCHED_OBJECTS: `fetchedObjects`,
+    UID: `UID`
 }
 
 
@@ -65,12 +72,15 @@ const GENERAL = {
     NEGATIVE: [`NO`, `N`],
     GET: `get`,
     POST: `post`,
+    SEED: `seed`
 }
 
 const GENERAL_GTNEXUS_OBJECTS = {
     RESULT: `result`,
     SHIPMENT_ITEM: `shipmentItem`,
-    PO_NUMBER: `poNumber`
+    PO_NUMBER: `poNumber`,
+    META_DATA: `__metadata`,
+    UID: `uid`
 }
 
 const GTNEXUS = {
@@ -128,6 +138,12 @@ const DOCTYPES = {
         },
         get FETCH_URL() {
             return `${this.ORDER_DETAIL}`
+        },
+        get SEED_QUERY_FIELD() {
+            return `${this.QUERY_FIELDS.PO_NUMBER}=`
+        },
+        get UID() {
+            return `${this.OBJECT_FIELDS.ORDER_UID}`
         }
     },
     INV:{
@@ -141,6 +157,7 @@ const DOCTYPES = {
         OBJECT_FIELDS:{
             INVOICE_UID: `invoiceUid`
         },
+        ORDERS_FIELD: `orderReference`,
         get FULL_FORM() {
             return this.COMMERCIAL_INVOICE
         },
@@ -152,6 +169,12 @@ const DOCTYPES = {
         },
         get FETCH_URL() {
             return `${this.INVOICE_DETAIL}`
+        },
+        get SEED_QUERY_FIELD() {
+            return `${this.QUERY_FIELDS.INVOICE_NUMBER}=`
+        },
+        get UID() {
+            return `${this.OBJECT_FIELDS.INVOICE_UID}`
         }
     },
     PL:{
@@ -160,14 +183,30 @@ const DOCTYPES = {
         PACKING_MANIFEST: `PackingManifest`,
         PACKING_LIST: `PackingList`,
         PACKING_LIST_DETAIL: `PackingListDetail`,
+        QUERY_FIELDS: {
+            PACKING_LIST_NUMBER: `packingListNumber`
+        },
+        OBJECT_FIELDS:{
+            PACKING_LIST_UID: `packingListUid`
+        },
+        ORDERS_FIELD: `shipmentItem`,
         get FULL_FORM() {
             return this.PACKING_MANIFEST
         },
         get SHORT_FORM() {
             return this.PL.toUpperCase()
         },
+        get QUERY_URL() {
+            return `${this.PACKING_LIST_DETAIL}/${GTNEXUS.API.QUERY}?${GTNEXUS.API.OQL}=${this.QUERY_FIELDS.PACKING_LIST_NUMBER}=`
+        },
         get FETCH_URL() {
             return `${this.PACKING_LIST_DETAIL}`
+        },
+        get SEED_QUERY_FIELD() {
+            return `${this.QUERY_FIELDS.PACKING_LIST_NUMBER}=`
+        },
+        get UID() {
+            return `${this.OBJECT_FIELDS.PACKING_LIST_UID}`
         }
     },
     PP:{
@@ -176,14 +215,30 @@ const DOCTYPES = {
         PACKING_PLAN_MANIFEST: `PackingPlanManifest`,
         PACKING_PLAN: `PackingPlan`,
         PACKING_PLAN_DETAIL: `PackingPlanDetail`,
+        QUERY_FIELDS: {
+            PACKING_PLAN_NUMBER: `packingPlanNumber`
+        },
+        OBJECT_FIELDS:{
+            PACKING_PLAN_UID: `packingPlanUid`
+        },
+        ORDERS_FIELD: `shipmentItem`,
         get FULL_FORM() {
             return this.PACKING_PLAN_MANIFEST
         },
         get SHORT_FORM() {
             return this.PP.toUpperCase()
         },
+        get QUERY_URL() {
+            return `${this.PACKING_PLAN_DETAIL}/${GTNEXUS.API.QUERY}?${GTNEXUS.API.OQL}=${this.QUERY_FIELDS.PACKING_PLAN_NUMBER}=`
+        },
         get FETCH_URL() {
             return `${this.PACKING_PLAN_DETAIL}`
+        },
+        get SEED_QUERY_FIELD() {
+            return `${this.QUERY_FIELDS.PACKING_PLAN_NUMBER}=`
+        },
+        get UID() {
+            return `${this.OBJECT_FIELDS.PACKING_PLAN_UID}`
         }
     },
     DOC:{

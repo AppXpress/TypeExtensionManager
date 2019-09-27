@@ -5,7 +5,7 @@ import Cryptr from 'cryptr'
 const cryptr = new Cryptr('gtnexusisBest@123')
 
 const {createFile, readFile, writeToFile, isFileExisting} = require('./utility/fileUtility')
-const {getCustomerName, getDocumentType, getRulesetType, setupCustomerDirectories, setupCustomerFiles, jirafy, setupCutomerBaseCode, setupSampleData, setupCustomerResources} = require('./utility/customerUtility')
+const {getCustomerName, getDocumentType, getRulesetType, setupCustomerDirectories, setupCustomerFiles, jirafy, setupCutomerBaseCode, setupCustomerAxusCode, setupSampleData, setupCustomerResources, platformModuleManager} = require('./utility/customerUtility')
 
 let {
     GENERAL:{ENCODING_UTF8, BASE_64, BASIC},
@@ -122,8 +122,9 @@ let processCustomer = (essentials) => {
         await setupCustomerDirectories(essentials)
         await setupCustomerFiles(essentials)
         await jirafy(essentials)
-        await setupCutomerBaseCode(essentials)
         await setupSampleData(essentials)
+        await setupCutomerBaseCode(essentials)
+        await setupCustomerAxusCode(essentials)
         await setupCustomerResources(essentials)
         resolve()
     })

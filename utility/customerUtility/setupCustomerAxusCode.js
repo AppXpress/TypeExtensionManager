@@ -2,7 +2,7 @@ import fs from 'fs'
 import CONSTANTS from '../../constants'
 import moment from 'moment'
 const {
-    fields:{CUSTOMER, DOC_SHORT_FORM, JIRA_NUMBER, USER, USER_NAME, FILE, CUSTOMER_NAME, DOCUMENT_TYPE, RULE_SET_TYPE, CUSTOMER_TEST_DIRECTORY},
+    fields:{CUSTOMER, DOC_SHORT_FORM, JIRA_NUMBER, USER, USER_NAME, FILE, CUSTOMER_NAME, DOCUMENT_TYPE, RULE_SET_TYPE, CUSTOMER_TEST_DIRECTORY, EVENT},
     FILES:{EXTENSIONS:{SPEC}},
     MESSAGES:{INFO:{COULD_NOT_CREATE_AXUS_TEST_FILE}},
     GENERAL:{DATE_FORMAT, WHO, DESCRIPTION, ENCODING_UTF8},
@@ -17,12 +17,12 @@ export default (essentials) => {
             let who = `${essentials[USER][USER_NAME].charAt(0).toUpperCase()}${essentials[USER][USER_NAME].charAt(1).toUpperCase()}`||WHO
             let description = `${DESCRIPTION}`
             let code = constructCode(essentials, jiraNumber, date, who, description)
-            let data = fs.readFileSync(`${essentials[FILE][CUSTOMER_TEST_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][DOCUMENT_TYPE]}/${essentials[CUSTOMER][RULE_SET_TYPE]}/${essentials[CUSTOMER][RULE_SET_TYPE]}${SPEC}`, ENCODING_UTF8)
+            let data = fs.readFileSync(`${essentials[FILE][CUSTOMER_TEST_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][RULE_SET_TYPE]}/${essentials[CUSTOMER][RULE_SET_TYPE]}${SPEC}`, ENCODING_UTF8)
             if(data && data != ``){
                 console.log(DATA_ALREADY_PRESENT)
                 resolve()
             }else{
-                fs.writeFileSync(`${essentials[FILE][CUSTOMER_TEST_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][DOCUMENT_TYPE]}/${essentials[CUSTOMER][RULE_SET_TYPE]}/${essentials[CUSTOMER][RULE_SET_TYPE]}${SPEC}`, code)
+                fs.writeFileSync(`${essentials[FILE][CUSTOMER_TEST_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][RULE_SET_TYPE]}/${essentials[CUSTOMER][RULE_SET_TYPE]}${SPEC}`, code)
                 console.log(`${INITIAL_CODE_SETUP}`)
                 resolve()
             }
@@ -35,6 +35,7 @@ export default (essentials) => {
 
 
 let constructCode = (essentials, jiraNumber, date, who, description)=>{
+    let eventType = `${essentials[CUSTOMER][EVENT]}`
     let sampleCode = `
     /**
      *   C H A N G E    L  O G
@@ -48,7 +49,7 @@ let constructCode = (essentials, jiraNumber, date, who, description)=>{
       let expect = chai.expect;
       let axus = require('axus');
       let ctx = axus
-      .requireLocal('../customer/${essentials.customer.customerName}/${essentials.customer.documentType}/${essentials.customer.ruleSetType}', undefined, {
+      .requireLocal('../customer/${essentials.customer.customerName}/${essentials.customer.ruleSetType}', undefined, {
         console: console
       })
       .seed(require('./resources/seed.json')); //ADD YOUR SEEDFILE HERE
@@ -57,11 +58,10 @@ let constructCode = (essentials, jiraNumber, date, who, description)=>{
           ctx.Providers.reset();
         });
       let ${(essentials.customer.docShortForm)}_Sample_${essentials.customer.sampleRefNumber||""} = require('./resources/${essentials.customer.documentType}.json');
-      ${DOCUMENTS}
       describe('${essentials.customer.ruleSetType}.1:', () => {
         it('Positive: ${essentials.customer.customerName} ', (done) => {
           //TODO
-          ctx.fnOnEvent(${(essentials.customer.docShortForm)}_Sample_${essentials.customer.sampleRefNumber});
+          ctx.fnOn${eventType}(${(essentials.customer.docShortForm)}_Sample_${essentials.customer.sampleRefNumber});
           done();
         });
       });
