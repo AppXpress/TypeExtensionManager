@@ -150,9 +150,11 @@ let fetchRelatedOrders = (essential, fetchedObject, options) => {
         }else if([PP.FULL_FORM, PL.FULL_FORM].includes(essential[CUSTOMER][DOCUMENT_TYPE])){
             const ordersField = PP[ORDERS_FIELD]
             poNumbers = [...new Set(fetchedObject[ordersField].map(item => item[PO_NUMBER]))]                        
+        }else{
+            poNumbers.push(essential[CUSTOMER][SAMPLE_REF_NUMBER])
         }
         essential[CUSTOMER][PO_NUMBERS_LIST] = poNumbers
-        
+
         let i = 0;
         for(i; i < poNumbers.length; i++) {
             let quriedPoObject = await queryDocument(essential, options, poNumbers[i])

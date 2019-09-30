@@ -276,9 +276,21 @@ const RULE_SET = {
     }
 }
 
+const OPTIONS = {
+    ONE: `1`,
+    TWO: `2`,
+    THREE: `3`,
+    FOUR: `4`,
+    FIVE: `5`,
+    SIX: `6`,
+    SEVEN: `7`,
+    EIGHT: `8`,
+    NINE: `9`,
+}
+
 const QUESTIONS = {
-    QUESTION_DOCUMENT_TYPE: `Document Type - ${DOCTYPES.PO.SHORT_FORM}|${DOCTYPES.PL.SHORT_FORM}|${DOCTYPES.PP.SHORT_FORM}|${DOCTYPES.INV.SHORT_FORM}|Custom Document Name:`,
-    QUESTION_RULESET_TYPE: `Type of ruleset:(${EVENTS.VALIDATION}|${EVENTS.POPULATION}) - ${EVENTS.POP},${EVENTS.VLD},${EVENTS.POPS},${EVENTS.VLDS},${EVENTS.POPULATIONS},${EVENTS.VALIDATIONS} ?`,
+    QUESTION_DOCUMENT_TYPE: `Document Type - \n1.${DOCTYPES.PO.SHORT_FORM}\n2.${DOCTYPES.PL.SHORT_FORM}\n3.${DOCTYPES.PP.SHORT_FORM}\n4.${DOCTYPES.INV.SHORT_FORM}\n5.Custom Document Name:\n`,
+    QUESTION_RULESET_TYPE: `Type of ruleset:\n1.${EVENTS.POPULATION}\n2.${EVENTS.VALIDATION}\n`,
     QUESTION_JIRA_NUMBER: `Add your JIRA#:`,
     QUESTION_SAMPLE_DATA_REQUEST: `Would you like me to fetch some sample data for you?[Y|N]`,
     QUESTION_SAMPLE_DATA: `Provide your SampleRef#`,
@@ -320,5 +332,6 @@ export default{
     MESSAGES,
     EVENTS,
     GENERAL_GTNEXUS_OBJECTS,
+    OPTIONS,
     fields
 }

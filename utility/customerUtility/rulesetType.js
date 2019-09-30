@@ -6,7 +6,8 @@ const {
     EVENTS:{POP,POPS,POPULATION,POPULATIONS,VALIDATION,VALIDATIONS,VLD,VLDS, POPULATE, VALIDATE},
     MESSAGES:{ERRORS:{NO_RULESET_TYPE_RPOVIDED}},
     fields:{CUSTOMER, RULE_SET_TYPE,CUSTOMER_NAME, DOCUMENT_TYPE, EVENT},
-    RULE_SET:{POP_RULE_SET, VLD_RULE_SET}
+    RULE_SET:{POP_RULE_SET, VLD_RULE_SET},
+    OPTIONS: {ONE, TWO}
 } = CONSTANTS
 
 export default (essentials) => {
@@ -20,6 +21,7 @@ export default (essentials) => {
                     case POPS.toLowerCase():
                     case POPULATION.toLowerCase():
                     case POPULATIONS.toLowerCase():
+                    case ONE:
                         type = essentials[CUSTOMER][CUSTOMER_NAME]+essentials[CUSTOMER][DOCUMENT_TYPE]+POP_RULE_SET
                         event = POPULATE
                         break
@@ -28,6 +30,7 @@ export default (essentials) => {
                     case VLDS.toLowerCase():
                     case VALIDATION.toLowerCase():
                     case VALIDATIONS.toLowerCase():
+                    case TWO:
                         type = essentials[CUSTOMER][CUSTOMER_NAME]+essentials[CUSTOMER][DOCUMENT_TYPE]+VLD_RULE_SET          
                         event = VALIDATE
                         break
