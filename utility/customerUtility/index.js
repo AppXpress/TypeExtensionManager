@@ -12,3 +12,4 @@ export { default as platformModuleManager } from './platformModuleManagerInterac
 export { default as queryDocument } from './queryDocument'
 export { default as fetchDocument } from './fetchDocument'
 export { default as setupSeedFile } from './setupSeedFile'
+export { default as runConfig } from './runConfig'

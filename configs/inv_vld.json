@@ -1,0 +1,9 @@
+{
+    "customerName" : "Bhuvanesh",
+    "documentType": "CommercialInvoice",
+    "jiraNumber": "PSO-19611",
+    "isSampleRequired": "Y",
+    "env": "supq",
+    "sampleRefNumber": "INV1000000132A",
+    "ruleSetType": "VLD"
+}

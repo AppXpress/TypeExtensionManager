@@ -36,6 +36,7 @@ const fields = {
     EVENT: `Event`,
     IS_SAMPLE_REQUIRED: `isSampleRequired`,
     FILE: `file`,
+    IS_CONFIG: `isConfig`,
     HTTP_HEADER:{
         headers:{
             Authorization: ``,
@@ -55,6 +56,11 @@ const fields = {
     QUERIED_OBJECTS: `queriedObjects`,
     FETCHED_OBJECTS: `fetchedObjects`,
     UID: `UID`
+}
+
+const CMD_ARGUMENTS = {
+    ARG_1: `doc`,
+    ARG_2: `type`
 }
 
 
@@ -289,7 +295,7 @@ const OPTIONS = {
 }
 
 const QUESTIONS = {
-    QUESTION_DOCUMENT_TYPE: `Document Type - \n1.${DOCTYPES.PO.SHORT_FORM}\n2.${DOCTYPES.PL.SHORT_FORM}\n3.${DOCTYPES.PP.SHORT_FORM}\n4.${DOCTYPES.INV.SHORT_FORM}\n5.Custom Document Name:\n`,
+    QUESTION_DOCUMENT_TYPE: `Document Type - \n1.${DOCTYPES.PO.SHORT_FORM}\n2.${DOCTYPES.INV.SHORT_FORM}\n3.${DOCTYPES.PP.SHORT_FORM}\n4.${DOCTYPES.PL.SHORT_FORM}\n5.Custom Document Name:\n`,
     QUESTION_RULESET_TYPE: `Type of ruleset:\n1.${EVENTS.POPULATION}\n2.${EVENTS.VALIDATION}\n`,
     QUESTION_JIRA_NUMBER: `Add your JIRA#:`,
     QUESTION_SAMPLE_DATA_REQUEST: `Would you like me to fetch some sample data for you?[Y|N]`,
@@ -333,5 +339,6 @@ export default{
     EVENTS,
     GENERAL_GTNEXUS_OBJECTS,
     OPTIONS,
-    fields
+    fields,
+    CMD_ARGUMENTS
 }

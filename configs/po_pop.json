@@ -1,0 +1,9 @@
+{
+    "customerName" : "Bhuvanesh",
+    "documentType": "PurchaseOrder",
+    "jiraNumber": "PSO-19611",
+    "isSampleRequired": "Y",
+    "env": "supq",
+    "sampleRefNumber": "65888200",
+    "ruleSetType": "POP"
+}
