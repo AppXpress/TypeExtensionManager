@@ -5,20 +5,29 @@
 
 import utils from './utils'
 import CONSTANTS from './constants'
+import { runConfig } from './utility/customerUtility';
 
 let {initModules, writeUserData, getBasicKey, processCustomer} = utils
+let {CMD_ARGUMENTS:{ARG_1, ARG_2}} = CONSTANTS
 
 const main = async () => {
   await initModules().then(async (essentials) => {
-    console.log(essentials)
+    let configType = ``
+    let rulesetType = ``
     if(!essentials.existing){
         await writeUserData()
         console.log(`Since this is the first time using the tool kindly restart the tool.`)
         process.exit(0)
     }
     await getBasicKey(essentials)
+    if(process.argv.indexOf(ARG_1) != -1 && process.argv.indexOf(ARG_2) != -1){
+      let indexOfConfigType = process.argv.indexOf(ARG_1) + 1
+      let indexOfType = process.argv.indexOf(ARG_2) + 1
+      rulesetType = process.argv[indexOfType]
+      configType = process.argv[indexOfConfigType]
+      runConfig(essentials, configType, rulesetType)
+    }
     await processCustomer(essentials)
-    console.log(essentials)
     process.exit()
   })
 }

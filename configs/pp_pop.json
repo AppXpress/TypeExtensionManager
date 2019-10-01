@@ -1,0 +1,9 @@
+{
+    "customerName" : "Bhuvanesh",
+    "documentType": "PackingPlanManifest",
+    "jiraNumber": "PSO-19611",
+    "isSampleRequired": "Y",
+    "env": "supq",
+    "sampleRefNumber": "582167224",
+    "ruleSetType": "POP"
+}
