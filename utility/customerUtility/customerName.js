@@ -1,3 +1,7 @@
+/**
+ * 
+ */
+
 import CONSTANTS from '../../constants'
 let {
     fields:{CUSTOMER, CUSTOMER_NAME, IS_CONFIG},
