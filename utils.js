@@ -129,6 +129,16 @@ let getUserCredentials = () => {
   })
 }
 
+let getUserPlatform = () => {
+    return new Promise((resolve, reject) => {
+        if(process.platform === 'win32'){
+            essentials[IS_WIN] = true
+        }else{
+            essentials[IS_WIN] = false
+        }
+    })
+}
+
 let getBasicKey = (essentials) => {
   console.log(essentials)
   return new Promise((resolve, reject) => {

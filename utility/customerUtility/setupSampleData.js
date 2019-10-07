@@ -6,6 +6,9 @@ import {
   queryDocument,
   setupSeedFile
 } from '../customerUtility';
+
+import node_path from 'upath'
+
 const {
   rl,
   MESSAGES: {

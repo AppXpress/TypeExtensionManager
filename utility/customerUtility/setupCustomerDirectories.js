@@ -27,12 +27,13 @@ export default (essential) => {
   return new Promise((resolve, reject) => {
     if (essential[CUSTOMER] && essential[CUSTOMER][CUSTOMER_NAME]) {
       const customerName = essential[CUSTOMER][CUSTOMER_NAME]
-      createFolder(`${essential[FILE][CUSTOMER_DIRECTORY]}/${customerName}/`, `${essential[CUSTOMER][RULE_SET_TYPE]}`)
+      createFolder(`${essential[FILE][CUSTOMER_DIRECTORY]}/${customerName}/${essential[CUSTOMER][RULE_SET_TYPE]}`)
         .then((customerFolderCreationStauts) => {
-          createFolder(`${essential[FILE][CUSTOMER_TEST_DIRECTORY]}/${customerName}/`, `${essential[CUSTOMER][RULE_SET_TYPE]}`)
+          createFolder(`${essential[FILE][CUSTOMER_TEST_DIRECTORY]}/${customerName}/${essential[CUSTOMER][RULE_SET_TYPE]}`)
             .then(() => {
-              createFolder(`${essential[FILE][CUSTOMER_TEST_DIRECTORY]}/${customerName}/${essential[CUSTOMER][RULE_SET_TYPE]}`, `${RESOURCES}`)
-              resolve()
+              createFolder(`${essential[FILE][CUSTOMER_TEST_DIRECTORY]}/${customerName}/${essential[CUSTOMER][RULE_SET_TYPE]}/${RESOURCES}`).then((status) => {
+                resolve()
+              })
             })
             .catch(() => {
               console.log(COULD_NOT_CREATE_TEST_FOLDER)

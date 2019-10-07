@@ -8,8 +8,7 @@ export default (path, fileName, fileExtension) => {
     return new Promise((resolve, reject) => {
         if(path && fileExtension && fileName){
             try{
-                const filePath = node_path.toUnix(`${path}`, `${fileName}${fileExtension}`)
-                console.log(`${filePath}`)
+                const filePath = node_path.toUnix(`${path}/${fileName}${fileExtension}`)
                 shell.touch(`${filePath}`)
                 resolve(`${filePath} sucessfully created`)
             }catch(fe){

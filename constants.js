@@ -55,7 +55,8 @@ const fields = {
     ORDERS_FIELD: `ORDERS_FIELD`,
     QUERIED_OBJECTS: `queriedObjects`,
     FETCHED_OBJECTS: `fetchedObjects`,
-    UID: `UID`
+    UID: `UID`,
+    IS_WIN: `isWin`
 }
 
 const CMD_ARGUMENTS = {
