@@ -46,6 +46,11 @@ let {
     AUTHORIZATION
   },
   rl,
+  QUESTIONS:{
+    QUESTION_USER_CREDENTIALS,
+    QUESTION_USER_CREDENTIALS_USERNAME,
+    QUESTION_USER_CREDENTIALS_PASSWORD
+  },
   essentials
 } = CONSTANTS
 
@@ -103,10 +108,10 @@ let getPlatformLocation = () => {
 
 let getUserCredentials = () => {
   return new Promise((resolve, reject) => {
-    rl.question(`Enter your SUPORTQ Credentials(Need this to fetch data and create sample files for your module)\nUserName:\n`, (username) => {
+    rl.question(`${QUESTION_USER_CREDENTIALS}${QUESTION_USER_CREDENTIALS_USERNAME}`, (username) => {
       if (username) {
         essentials[USER] = {}
-        console.log(`Password:`)
+        console.log(`${QUESTION_USER_CREDENTIALS_PASSWORD}`)
         rl.stdoutMuted = true;
         rl.question(``, (password) => {
           rl.stdoutMuted = false;

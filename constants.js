@@ -304,7 +304,10 @@ const QUESTIONS = {
     QUESTION_SAMPLE_DATA_REQUEST: `Would you like me to fetch some sample data for you?[Y|N]: `,
     QUESTION_SAMPLE_DATA: `Provide your SampleRef#: `,
     QUESTION_PICK_ENV: `Which environment would you like to fetch the data from?\n1.SUPPORTQ\n2.PREPROD\nOPTION: `,
-    QUESTION_SAMPLE_PO_DATA: `Do you want me to fetch all the realted PO Documents?[Y|N]: `
+    QUESTION_SAMPLE_PO_DATA: `Do you want me to fetch all the realted PO Documents?[Y|N]: `,
+    QUESTION_USER_CREDENTIALS: `Enter your SUPPORTQ Credentials(Need this to fetch data and create sample files for your module)\n`,
+    QUESTION_USER_CREDENTIALS_USERNAME: `UserName:\n`,
+    QUESTION_USER_CREDENTIALS_PASSWORD: `Password:`
 }
 const MESSAGES = {
     ERRORS:{
