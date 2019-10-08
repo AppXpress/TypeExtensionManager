@@ -34,9 +34,7 @@ const {
   },
   MESSAGES: {
     INFO: {
-      INITIAL_CODE_SETUP,
       NOT_MUCH_INFO,
-      DATA_ALREADY_PRESENT
     },
   }
 } = CONSTANTS
@@ -53,11 +51,9 @@ export default (essentials) => {
       let code = constructCode(essentials, jiraNumber, date, who, description)
       let data = fs.readFileSync(`${essentials[FILE][CUSTOMER_TEST_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][RULE_SET_TYPE]}/${essentials[CUSTOMER][RULE_SET_TYPE]}${SPEC}`, ENCODING_UTF8)
       if (data && data != ``) {
-        console.log(`\n` + DATA_ALREADY_PRESENT)
         resolve()
       } else {
         fs.writeFileSync(`${essentials[FILE][CUSTOMER_TEST_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][RULE_SET_TYPE]}/${essentials[CUSTOMER][RULE_SET_TYPE]}${SPEC}`, code)
-        console.log(`${INITIAL_CODE_SETUP}`)
         resolve()
       }
     } else {

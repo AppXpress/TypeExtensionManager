@@ -140,7 +140,6 @@ let getUserPlatform = () => {
 }
 
 let getBasicKey = (essentials) => {
-  console.log(essentials)
   return new Promise((resolve, reject) => {
     if (essentials[USER][USER_NAME] && essentials[USER][PASSWORD]) {
       let username = essentials[USER][USER_NAME]

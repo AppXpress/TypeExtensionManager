@@ -8,7 +8,7 @@ import CONSTANTS from './constants'
 import { runConfig } from './utility/customerUtility';
 
 let {initModules, writeUserData, getBasicKey, processCustomer} = utils
-let {CMD_ARGUMENTS:{ARG_1, ARG_2}} = CONSTANTS
+let {CMD_ARGUMENTS:{ARG_1, ARG_2}, STARTUP_LOG} = CONSTANTS
 
 const main = async () => {
   await initModules().then(async (essentials) => {
@@ -31,5 +31,5 @@ const main = async () => {
     process.exit()
   })
 }
-
+console.log(STARTUP_LOG.STARTUP_SCREEN)
 main()

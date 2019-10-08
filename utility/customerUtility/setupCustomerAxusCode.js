@@ -27,7 +27,7 @@ const {
   },
   MESSAGES: {
     INFO: {
-      INITIAL_CODE_SETUP,
+      AXUS_INITIAL_CODE_SETUP,
       NOT_MUCH_INFO,
       DATA_ALREADY_PRESENT
     },
@@ -48,7 +48,7 @@ export default (essentials) => {
         resolve()
       } else {
         fs.writeFileSync(`${essentials[FILE][CUSTOMER_TEST_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][RULE_SET_TYPE]}/${essentials[CUSTOMER][RULE_SET_TYPE]}${SPEC}`, code)
-        console.log(`${INITIAL_CODE_SETUP}`)
+        console.log(`${AXUS_INITIAL_CODE_SETUP}`)
         resolve()
       }
     } else {
