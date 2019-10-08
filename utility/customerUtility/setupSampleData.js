@@ -180,7 +180,9 @@ let settingupSampleData = (essential, isDataRequired) => {
               essential[ENVIRONMENT] = SUPQ_URL
               break
             case `2`:
-              essential[ENVIRONMENT] = PREPROD_URL
+              // essential[ENVIRONMENT] = PREPROD_URL FUTURE SUPPORT
+              essential[ENVIRONMENT] = SUPQ_URL
+              console.log(`\n\n!!!!IMPORTANT PREPROD SUPPORT IS STILL UNDER DEVELOPMENT. SWITCHING TO SUPPORTQ ENVIRONMENT!!!!\n\n`)
               break
             default:
               essential[ENVIRONMENT] = SUPQ_URL

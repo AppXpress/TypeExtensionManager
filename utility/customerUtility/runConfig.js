@@ -17,7 +17,6 @@ export default (essential, documentType, rulesetType) => {
   let ARR_DOCUMENT_TYPE = ["PO", "INV", "PP", "PL"]
   let ARR_RULE_SET_TYPE = ["POP", "VLD"]
   return new Promise((resolve, reject) => {
-    console.log(documentType + " " + rulesetType)
     if (ARR_DOCUMENT_TYPE.includes(documentType.toUpperCase()) && ARR_RULE_SET_TYPE.includes(rulesetType.toUpperCase())) {
       let configFileType = documentType + `_` + rulesetType
       let config = require('../../configs/' + configFileType.toLowerCase() + '.json')
@@ -29,7 +28,7 @@ export default (essential, documentType, rulesetType) => {
       essential[CUSTOMER][IS_SAMPLE_REQUIRED] = config[IS_SAMPLE_REQUIRED]
       essential[CUSTOMER][SAMPLE_REF_NUMBER] = config[SAMPLE_REF_NUMBER]
       essential[CUSTOMER][RULE_SET_TYPE] = config[RULE_SET_TYPE]
+      console.log(`\n\nCONFIGURATIONS:\nCustomer: ${config[CUSTOMER_NAME]}\nDocumentType: ${config[DOCUMENT_TYPE]}\nRulesetType: ${config[RULE_SET_TYPE]}\nJira#: ${config[JIRA_NUMBER]}\nDocumentReference#:${config[SAMPLE_REF_NUMBER]}\n\n`)
     }
-    console.log(essential)
   })
 }
