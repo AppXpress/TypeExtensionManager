@@ -1,6 +1,7 @@
 import fs from 'fs'
 import CONSTANTS from '../../constants'
 import moment from 'moment'
+import isFileExisting from '../fileUtility/isFileExisting'
 const {
   fields: {
     CUSTOMER,
@@ -34,6 +35,7 @@ const {
   }
 } = CONSTANTS
 
+
 export default (essentials) => {
   return new Promise((resolve, reject) => {
     if (essentials && essentials[CUSTOMER][DOC_SHORT_FORM] && essentials[CUSTOMER][JIRA_NUMBER]) {
@@ -42,15 +44,18 @@ export default (essentials) => {
       let who = `${essentials[USER][USER_NAME].charAt(0).toUpperCase()}${essentials[USER][USER_NAME].charAt(1).toUpperCase()}` || WHO
       let description = `${DESCRIPTION}`
       let code = constructCode(essentials, jiraNumber, date, who, description)
-      let data = fs.readFileSync(`${essentials[FILE][CUSTOMER_TEST_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][RULE_SET_TYPE]}/${essentials[CUSTOMER][RULE_SET_TYPE]}${SPEC}`, ENCODING_UTF8)
-      if (data && data != ``) {
-        console.log(DATA_ALREADY_PRESENT)
-        resolve()
-      } else {
+      isFileExisting(`${essentials[FILE][CUSTOMER_TEST_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][RULE_SET_TYPE]}/`,`${essentials[CUSTOMER][RULE_SET_TYPE]}${SPEC}`,`${SPEC}`).then((res) => {
+        let data = fs.readFileSync(`${essentials[FILE][CUSTOMER_TEST_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][RULE_SET_TYPE]}/${essentials[CUSTOMER][RULE_SET_TYPE]}${SPEC}`, ENCODING_UTF8)
+        if(data && data != ``){
+          console.log(DATA_ALREADY_PRESENT)
+          resolve()
+        }
+      })
+      .catch((res) => {
         fs.writeFileSync(`${essentials[FILE][CUSTOMER_TEST_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][RULE_SET_TYPE]}/${essentials[CUSTOMER][RULE_SET_TYPE]}${SPEC}`, code)
         console.log(`${AXUS_INITIAL_CODE_SETUP}`)
         resolve()
-      }
+      })
     } else {
       console.log(`${NOT_MUCH_INFO}`)
       resolve()
