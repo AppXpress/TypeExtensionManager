@@ -181,7 +181,7 @@ let processCustomer = (essentials) => {
     await setupSampleData(essentials)
     await setupCutomerBaseCode(essentials)
     await setupCustomerAxusCode(essentials)
-    await setupCustomerResources(essentials)
+    // await setupCustomerResources(essentials)
     resolve()
   })
 }

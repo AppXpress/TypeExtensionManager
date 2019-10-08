@@ -73,7 +73,7 @@ let constructCode = (essentials, jiraNumber, date, who, description) => {
      *
      *  (B)ug/(E)nh/(I)DB #    Date      Who  Description
      *  -------------------  ----------  ---  ---------------------------------------------------------------
-     *	${jiraNumber}\t\t\t\t\t\t ${date} ${who}\t${description}
+     *	${jiraNumber}\t\t\t\t\t\t ${date} \t${who}\t${description}
      */
       let chai = require('chai');
       chai.use(require('chai-things'));
