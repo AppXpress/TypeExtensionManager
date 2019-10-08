@@ -55,12 +55,14 @@ const fields = {
     ORDERS_FIELD: `ORDERS_FIELD`,
     QUERIED_OBJECTS: `queriedObjects`,
     FETCHED_OBJECTS: `fetchedObjects`,
-    UID: `UID`
+    UID: `UID`,
+    IS_WIN: `isWin`
 }
 
 const CMD_ARGUMENTS = {
-    ARG_1: `doc`,
-    ARG_2: `type`
+    DOC_ARG: `doc`,
+    TYPE_ARG: `type`,
+    HELP_ARG: `--h`
 }
 
 
@@ -295,13 +297,17 @@ const OPTIONS = {
 }
 
 const QUESTIONS = {
-    QUESTION_DOCUMENT_TYPE: `Document Type - \n1.${DOCTYPES.PO.SHORT_FORM}\n2.${DOCTYPES.INV.SHORT_FORM}\n3.${DOCTYPES.PP.SHORT_FORM}\n4.${DOCTYPES.PL.SHORT_FORM}\n5.Custom Document Name:\n`,
-    QUESTION_RULESET_TYPE: `Type of ruleset:\n1.${EVENTS.POPULATION}\n2.${EVENTS.VALIDATION}\n`,
-    QUESTION_JIRA_NUMBER: `Add your JIRA#:`,
-    QUESTION_SAMPLE_DATA_REQUEST: `Would you like me to fetch some sample data for you?[Y|N]`,
-    QUESTION_SAMPLE_DATA: `Provide your SampleRef#`,
-    QUESTION_PICK_ENV: `Which environment would you like to fetch the data from?\n1.SUPPORTQ\n2.PREPROD\n`,
-    QUESTION_SAMPLE_PO_DATA: `Do you want me to fetch all the realted PO Documents?[Y|N]`
+    QUESTION_CUSTOMER_NAME: `Enter Customer Name: `,
+    QUESTION_DOCUMENT_TYPE: `Document Type - \n1.${DOCTYPES.PO.SHORT_FORM}\n2.${DOCTYPES.INV.SHORT_FORM}\n3.${DOCTYPES.PP.SHORT_FORM}\n4.${DOCTYPES.PL.SHORT_FORM}\n5.Custom Document Name\nOPTION: `,
+    QUESTION_RULESET_TYPE: `Type of ruleset:\n1.${EVENTS.POPULATION}\n2.${EVENTS.VALIDATION}\nOPTION: `,
+    QUESTION_JIRA_NUMBER: `Add your JIRA#: `,
+    QUESTION_SAMPLE_DATA_REQUEST: `Would you like me to fetch some sample data for you?[Y|N]: `,
+    QUESTION_SAMPLE_DATA: `Provide your SampleRef#: `,
+    QUESTION_PICK_ENV: `Which environment would you like to fetch the data from?\n1.SUPPORTQ\n2.PREPROD\nOPTION: `,
+    QUESTION_SAMPLE_PO_DATA: `Do you want me to fetch all the realted PO Documents?[Y|N]: `,
+    QUESTION_USER_CREDENTIALS: `Enter your SUPPORTQ Credentials(Need this to fetch data and create sample files for your module)\n`,
+    QUESTION_USER_CREDENTIALS_USERNAME: `UserName:\n`,
+    QUESTION_USER_CREDENTIALS_PASSWORD: `Password:`
 }
 const MESSAGES = {
     ERRORS:{
@@ -313,11 +319,34 @@ const MESSAGES = {
     INFO:{
         COULD_NOT_CREATE_AXUS_TEST_FILE: `Unfortunatly I could not create your Axus test file`,
         COULD_NOT_CREATE_TEST_FOLDER: `Unfortunatly I could not create your Test Folder`,
-        INITIAL_CODE_SETUP: `I have set your intial code up`,
+        TYPE_EXTENSION_INITIAL_CODE_SETUP: `I have set your intial Type Extension`,
+        AXUS_INITIAL_CODE_SETUP: `I have set your intial Axus`,
         NOT_MUCH_INFO: `I do not have much info to create your file`,
         DATA_ALREADY_PRESENT: `Looks like you already have some code in there`,
         DID_NOT_FETCH_DATA: `Okay! I did not setup any sample data for you`,
         PICKED_ENV: `Okay so you picked `
+    },
+    HELP:{
+        HELP_TEXT: `HELP INFO:\n|-> npm start --- Runs the tool\n|-> npm start doc <DOCUMENT_TYPE> type <RULESET_TYPE>\n\t|-> doc: Specifies your are providing a document type as your next argument\n\t|-> type: Specifies you are providing a ruleset type as your next argument\n|-> MORE INFO: https://wiki.gtnexus.info/display/PSO/Type+Extension+Manager`
+    }
+}
+
+const STARTUP_LOG = {
+    NAME: `Type Extension Manager`,
+    VERSION: `v1.0`,
+    BETA: `beta`,
+    PATTERN: `*`,
+    AUTHOR: `bhuvanesh.arasu@infor.com`,
+    MENTOR: `stephen.bendfelt@infor.com`,
+    get STARTUP_SCREEN () {
+        const width = process.stdout.columns || 20
+        let marginPattern = ``
+        let i = 0
+        for(i; i < width; i++){
+            marginPattern+= this.PATTERN
+        }
+        const finalPattern = `${marginPattern}\n\t${this.NAME} -- ${this.VERSION} ${this.BETA} \t${this.AUTHOR}\t${this.MENTOR}\n${marginPattern}`
+        return finalPattern
     }
 }
 
@@ -340,5 +369,6 @@ export default{
     GENERAL_GTNEXUS_OBJECTS,
     OPTIONS,
     fields,
-    CMD_ARGUMENTS
+    CMD_ARGUMENTS,
+    STARTUP_LOG
 }

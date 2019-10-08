@@ -8,9 +8,15 @@ import CONSTANTS from './constants'
 import { runConfig } from './utility/customerUtility';
 
 let {initModules, writeUserData, getBasicKey, processCustomer} = utils
-let {CMD_ARGUMENTS:{ARG_1, ARG_2}} = CONSTANTS
+let {CMD_ARGUMENTS:{DOC_ARG, TYPE_ARG, HELP_ARG}, STARTUP_LOG, MESSAGES:{HELP:{HELP_TEXT}}} = CONSTANTS
 
 const main = async () => {
+  
+  if(process.argv.indexOf(HELP_ARG) != -1){
+    console.log(HELP_TEXT)
+    process.exit(0)
+  }
+
   await initModules().then(async (essentials) => {
     let configType = ``
     let rulesetType = ``
@@ -20,9 +26,9 @@ const main = async () => {
         process.exit(0)
     }
     await getBasicKey(essentials)
-    if(process.argv.indexOf(ARG_1) != -1 && process.argv.indexOf(ARG_2) != -1){
-      let indexOfConfigType = process.argv.indexOf(ARG_1) + 1
-      let indexOfType = process.argv.indexOf(ARG_2) + 1
+    if(process.argv.indexOf(DOC_ARG) != -1 && process.argv.indexOf(TYPE_ARG) != -1){
+      let indexOfConfigType = process.argv.indexOf(DOC_ARG) + 1
+      let indexOfType = process.argv.indexOf(TYPE_ARG) + 1
       rulesetType = process.argv[indexOfType]
       configType = process.argv[indexOfConfigType]
       runConfig(essentials, configType, rulesetType)
@@ -31,5 +37,5 @@ const main = async () => {
     process.exit()
   })
 }
-
+console.log(STARTUP_LOG.STARTUP_SCREEN)
 main()

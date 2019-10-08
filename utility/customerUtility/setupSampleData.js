@@ -6,21 +6,11 @@ import {
   queryDocument,
   setupSeedFile
 } from '../customerUtility';
+
+import node_path from 'upath'
+
 const {
   rl,
-  QUESTIONS: {
-    QUESTION_RULESET_TYPE
-  },
-  EVENTS: {
-    POP,
-    POPS,
-    POPULATION,
-    POPULATIONS,
-    VALIDATION,
-    VALIDATIONS,
-    VLD,
-    VLDS
-  },
   MESSAGES: {
     INFO: {
       DID_NOT_FETCH_DATA,
@@ -31,15 +21,12 @@ const {
     CUSTOMER,
     RULE_SET_TYPE,
     IS_CONFIG,
-    OBJECT_FIELDS,
     PO_NUMBERS_LIST,
     CUSTOMER_NAME,
     QUERIED_OBJECTS,
     FETCHED_OBJECTS,
     DOCUMENT_TYPE,
-    DOC_SHORT_FORM,
     FILE,
-    CUSTOMER_DIRECTORY,
     CUSTOMER_TEST_DIRECTORY,
     ENVIRONMENT,
     HTTP_HEADER,
@@ -52,15 +39,10 @@ const {
     IS_SAMPLE_REQUIRED,
     ORDERS_FIELD
   },
-  RULE_SET: {
-    POP_RULE_SET,
-    VLD_RULE_SET
-  },
   QUESTIONS: {
     QUESTION_SAMPLE_DATA_REQUEST,
     QUESTION_SAMPLE_DATA,
     QUESTION_PICK_ENV,
-    QUESTION_SAMPLE_PO_DATA
   },
   FILES: {
     EXTENSIONS: {
@@ -71,8 +53,6 @@ const {
   GENERAL: {
     AFFIRM,
     NEGATIVE,
-    GET,
-    POST,
     SEED
   },
   GTNEXUS: {
@@ -84,12 +64,8 @@ const {
     INV,
     PP,
     PL,
-    DOC
   },
-  DOCTYPES,
   GENERAL_GTNEXUS_OBJECTS: {
-    RESULT,
-    SHIPMENT_ITEM,
     PO_NUMBER
   },
 } = CONSTANTS
