@@ -60,8 +60,9 @@ const fields = {
 }
 
 const CMD_ARGUMENTS = {
-    ARG_1: `doc`,
-    ARG_2: `type`
+    DOC_ARG: `doc`,
+    TYPE_ARG: `type`,
+    HELP_ARG: `--h`
 }
 
 
@@ -321,6 +322,9 @@ const MESSAGES = {
         DATA_ALREADY_PRESENT: `Looks like you already have some code in there`,
         DID_NOT_FETCH_DATA: `Okay! I did not setup any sample data for you`,
         PICKED_ENV: `Okay so you picked `
+    },
+    HELP:{
+        HELP_TEXT: `HELP INFO:\n|-> npm start --- Runs the tool\n|-> npm start doc <DOCUMENT_TYPE> type <RULESET_TYPE>\n\t|-> doc: Specifies your are providing a document type as your next argument\n\t|-> type: Specifies you are providing a ruleset type as your next argument\n|-> MORE INFO: https://wiki.gtnexus.info/display/PSO/Type+Extension+Manager`
     }
 }
 

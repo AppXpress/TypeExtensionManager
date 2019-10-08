@@ -53,6 +53,7 @@ let {
  * Initialize's module with config file
  */
 let initModules = () => {
+  console.log(`HELP: npm start -- --h`)
   return new Promise((resolve, reject) => {
     isFileExisting(`.`, `${configFile}`, `ini`).then((isExisting) => {
       readFile(`.`, `${configFile}`, `ini`).then((data) => {
@@ -144,7 +145,7 @@ let getBasicKey = (essentials) => {
     if (essentials[USER][USER_NAME] && essentials[USER][PASSWORD]) {
       let username = essentials[USER][USER_NAME]
       let password = cryptr.decrypt(essentials[USER][PASSWORD])
-      let buffer = new Buffer(`${username}:${password}`)
+      let buffer = new Buffer.from(`${username}:${password}`)
       if (buffer) {
         essentials[USER][AUTHORIZATION] = `${BASIC} ${buffer.toString(BASE_64)}`
         resolve()
