@@ -28,7 +28,8 @@ const {
     CUSTOMER_NAME,
     DOCUMENT_TYPE,
     EVENT,
-    IS_CONFIG
+    IS_CONFIG,
+    MODULE_NAME
   },
   RULE_SET: {
     POP_RULE_SET,
@@ -37,6 +38,9 @@ const {
   OPTIONS: {
     ONE,
     TWO
+  },
+  FILES: {
+    TYPE_EXTENSION_MODULE
   }
 } = CONSTANTS
 
@@ -62,6 +66,8 @@ export default (essentials) => {
 let settingRulesetType = (rulesetName, essentials) => {
   let type = null
   let event = null
+  let moduleName = null
+
   switch (rulesetName.toLowerCase()) {
     case POP.toLowerCase():
     case POPS.toLowerCase():
@@ -70,6 +76,7 @@ let settingRulesetType = (rulesetName, essentials) => {
     case ONE:
       type = essentials[CUSTOMER][CUSTOMER_NAME] + essentials[CUSTOMER][DOCUMENT_TYPE] + POP_RULE_SET
       event = POPULATE
+      moduleName = essentials[CUSTOMER][CUSTOMER_NAME] + essentials[CUSTOMER][DOCUMENT_TYPE] + `${TYPE_EXTENSION_MODULE}`
       break
 
     case VLD.toLowerCase():
@@ -79,6 +86,7 @@ let settingRulesetType = (rulesetName, essentials) => {
     case TWO:
       type = essentials[CUSTOMER][CUSTOMER_NAME] + essentials[CUSTOMER][DOCUMENT_TYPE] + VLD_RULE_SET
       event = VALIDATE
+      moduleName = essentials[CUSTOMER][CUSTOMER_NAME] + essentials[CUSTOMER][DOCUMENT_TYPE] + `${TYPE_EXTENSION_MODULE}`
       break
     default:
       reject(new Error(NO_RULESET_TYPE_RPOVIDED))
@@ -86,4 +94,5 @@ let settingRulesetType = (rulesetName, essentials) => {
   }
   essentials[CUSTOMER][RULE_SET_TYPE] = type
   essentials[CUSTOMER][EVENT] = event
+  essentials[CUSTOMER][MODULE_NAME] = moduleName
 }

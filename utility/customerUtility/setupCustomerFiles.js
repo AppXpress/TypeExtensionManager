@@ -10,7 +10,8 @@ import {
       CUSTOMER_NAME,
       FILE,
       CUSTOMER_DIRECTORY,
-      CUSTOMER_TEST_DIRECTORY
+      CUSTOMER_TEST_DIRECTORY,
+      MODULE_NAME
     },
     FILES: {
       EXTENSIONS: {
@@ -29,13 +30,13 @@ import {
   
   export default (essentials) => {
     return new Promise((resolve, reject) => {
-      if (essentials && essentials[CUSTOMER] && essentials[CUSTOMER][CUSTOMER_NAME] && essentials[CUSTOMER][RULE_SET_TYPE]) {
-        isFileExisting(`${essentials[FILE][CUSTOMER_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][RULE_SET_TYPE]}`, `${essentials[CUSTOMER][RULE_SET_TYPE]}`, `js`).then((isExisting) => {
+      if (essentials && essentials[CUSTOMER] && essentials[CUSTOMER][CUSTOMER_NAME] && essentials[CUSTOMER][MODULE_NAME]) {
+        isFileExisting(`${essentials[FILE][CUSTOMER_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}`, `${essentials[CUSTOMER][RULE_SET_TYPE]}`, `js`).then((isExisting) => {
           console.log(DATA_ALREADY_PRESENT)
           resolve()
         }).catch((nonExisting) => {
-          createFile(`${essentials[FILE][CUSTOMER_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][RULE_SET_TYPE]}`, `${essentials[CUSTOMER][RULE_SET_TYPE]}`, `${JS}`).then((fileCreationStatus) => {
-              createFile(`${essentials[FILE][CUSTOMER_TEST_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][RULE_SET_TYPE]}`, `${essentials[CUSTOMER][RULE_SET_TYPE]}`, `${SPEC}`)
+          createFile(`${essentials[FILE][CUSTOMER_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}`, `${essentials[CUSTOMER][RULE_SET_TYPE]}`, `${JS}`).then((fileCreationStatus) => {
+              createFile(`${essentials[FILE][CUSTOMER_TEST_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}`, `${essentials[CUSTOMER][RULE_SET_TYPE]}`, `${SPEC}`)
                 .then(() => {
                   resolve()
                 })

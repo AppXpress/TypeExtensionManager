@@ -13,7 +13,8 @@ const {
     RULE_SET_TYPE,
     CUSTOMER_TEST_DIRECTORY,
     EVENT,
-    IS_SAMPLE_REQUIRED
+    IS_SAMPLE_REQUIRED,
+    MODULE_NAME
   },
   FILES: {
     EXTENSIONS: {
@@ -49,11 +50,11 @@ export default (essentials) => {
       let who = `${essentials[USER][USER_NAME].charAt(0).toUpperCase()}${essentials[USER][USER_NAME].charAt(1).toUpperCase()}` || WHO
       let description = `${DESCRIPTION}`
       let code = constructCode(essentials, jiraNumber, date, who, description)
-      let data = fs.readFileSync(`${essentials[FILE][CUSTOMER_TEST_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][RULE_SET_TYPE]}/${essentials[CUSTOMER][RULE_SET_TYPE]}${SPEC}`, ENCODING_UTF8)
+      let data = fs.readFileSync(`${essentials[FILE][CUSTOMER_TEST_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}/${essentials[CUSTOMER][RULE_SET_TYPE]}${SPEC}`, ENCODING_UTF8)
       if (data && data != ``) {
         resolve()
       } else {
-        fs.writeFileSync(`${essentials[FILE][CUSTOMER_TEST_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][RULE_SET_TYPE]}/${essentials[CUSTOMER][RULE_SET_TYPE]}${SPEC}`, code)
+        fs.writeFileSync(`${essentials[FILE][CUSTOMER_TEST_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}/${essentials[CUSTOMER][RULE_SET_TYPE]}${SPEC}`, code)
         resolve()
       }
     } else {
@@ -86,7 +87,7 @@ let constructCode = (essentials, jiraNumber, date, who, description) => {
       let expect = chai.expect;
       let axus = require('axus');
       let ctx = axus
-      .requireLocal('../customer/${essentials.customer.customerName}/${essentials.customer.documentType}/${essentials.customer.ruleSetType}', undefined, {
+      .requireLocal('../customer/${essentials.customer.customerName}/${essentials.customer.documentType}/${essentials.customer.moduleName}', undefined, {
         console: console
       })
       ${isResourceSetup === AFFIRM[1]?".seed(require('./resources/seed.json')); //ADD YOUR SEEDFILE HERE":'//ADD YOUR SEEDFILE HERE'}

@@ -14,7 +14,8 @@ const {
     CUSTOMER_NAME,
     FILE,
     CUSTOMER_DIRECTORY,
-    CUSTOMER_TEST_DIRECTORY
+    CUSTOMER_TEST_DIRECTORY,
+    MODULE_NAME
   },
   FILES: {
     RESOURCES
@@ -27,11 +28,11 @@ export default (essential) => {
   return new Promise((resolve, reject) => {
     if (essential[CUSTOMER] && essential[CUSTOMER][CUSTOMER_NAME]) {
       const customerName = essential[CUSTOMER][CUSTOMER_NAME]
-      createFolder(`${essential[FILE][CUSTOMER_DIRECTORY]}/${customerName}/${essential[CUSTOMER][RULE_SET_TYPE]}`)
+      createFolder(`${essential[FILE][CUSTOMER_DIRECTORY]}/${customerName}/${essential[CUSTOMER][MODULE_NAME]}`)
         .then((customerFolderCreationStauts) => {
-          createFolder(`${essential[FILE][CUSTOMER_TEST_DIRECTORY]}/${customerName}/${essential[CUSTOMER][RULE_SET_TYPE]}`)
+          createFolder(`${essential[FILE][CUSTOMER_TEST_DIRECTORY]}/${customerName}/${essential[CUSTOMER][MODULE_NAME]}`)
             .then(() => {
-              createFolder(`${essential[FILE][CUSTOMER_TEST_DIRECTORY]}/${customerName}/${essential[CUSTOMER][RULE_SET_TYPE]}/${RESOURCES}`).then((status) => {
+              createFolder(`${essential[FILE][CUSTOMER_TEST_DIRECTORY]}/${customerName}/${essential[CUSTOMER][MODULE_NAME]}/${RESOURCES}`).then((status) => {
                 resolve()
               })
             })

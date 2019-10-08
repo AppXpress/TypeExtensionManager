@@ -34,6 +34,7 @@ const fields = {
     AUTHORIZATION: `Authorization`,
     OBJECT_FIELDS: `OBJECT_FIELDS`,
     EVENT: `Event`,
+    MODULE_NAME: `moduleName`,
     IS_SAMPLE_REQUIRED: `isSampleRequired`,
     FILE: `file`,
     IS_CONFIG: `isConfig`,
@@ -75,7 +76,7 @@ const GENERAL = {
     JIRA_DEFAULT_TEXT: `CHANGEME`,
     DATE_FORMAT: `MM/DD/YYYY`,
     WHO: `¯\\_(ツ)_/¯`,
-    DESCRIPTION: `UPDATE THE DESCRIPTION`,
+    DESCRIPTION: `New`,
     AFFIRM: [`YES`, `Y`],
     NEGATIVE: [`NO`, `N`],
     GET: `get`,
@@ -120,6 +121,7 @@ const FILES = {
         INI: `.ini`
     },
     RESOURCES: `resources`,
+    TYPE_EXTENSION_MODULE: `TypeExtensionModule`
 
 }
 
