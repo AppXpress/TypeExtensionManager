@@ -1,6 +1,7 @@
 import fs from 'fs';
 import moment from 'moment';
 import CONSTANTS from '../../constants';
+import {isFileExisting} from "../fileUtility";
 const {
   fields: {
     CUSTOMER,
@@ -36,17 +37,24 @@ const {
 } = CONSTANTS
 
 export default (essentials) => {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     if (essentials && essentials[CUSTOMER][DOC_SHORT_FORM] && essentials[CUSTOMER][JIRA_NUMBER]) {
       let jiraNumber = essentials[CUSTOMER][JIRA_NUMBER]
       let date = `${moment().format(DATE_FORMAT)}`
       let who = `${essentials[USER][USER_NAME].charAt(0).toUpperCase()}${essentials[USER][USER_NAME].charAt(1).toUpperCase()}` || WHO
       let description = `${DESCRIPTION}`
       let code = constructCode(essentials, jiraNumber, date, who, description)
-      let data = fs.readFileSync(`${essentials[FILE][CUSTOMER_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}/${essentials[CUSTOMER][RULE_SET_TYPE]}${JS}`, ENCODING_UTF8)
-      if (data && data != ``) {
-        console.log(DATA_ALREADY_PRESENT)
-        resolve()
+      let boolIsFileExisting = await isFileExisting(`${essentials[FILE][CUSTOMER_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}`,`${essentials[CUSTOMER][RULE_SET_TYPE]}`,`${JS}`)
+      console.log(boolIsFileExisting+ ":"+"->")
+      if (boolIsFileExisting)  {
+        let data = fs.readFileSync(`${essentials[FILE][CUSTOMER_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}/${essentials[CUSTOMER][RULE_SET_TYPE]}${JS}`)
+        if(data.length != 0){
+          console.log(DATA_ALREADY_PRESENT)
+          resolve()
+        }else{
+          fs.writeFileSync(`${essentials[FILE][CUSTOMER_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}/${essentials[CUSTOMER][RULE_SET_TYPE]}${JS}`, code)
+          resolve()
+        }
       } else {
         fs.writeFileSync(`${essentials[FILE][CUSTOMER_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}/${essentials[CUSTOMER][RULE_SET_TYPE]}${JS}`, code)
         console.log(`${TYPE_EXTENSION_INITIAL_CODE_SETUP}`)

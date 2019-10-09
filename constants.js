@@ -36,7 +36,11 @@ const fields = {
     EVENT: `Event`,
     MODULE_NAME: `moduleName`,
     IS_SAMPLE_REQUIRED: `isSampleRequired`,
+    MODULE_PATH: `modulePath`,
+    ADD_PLATFORM_FILE: `addPlatformFile`,
     FILE: `file`,
+    RANK: `rank`,
+    PLATFORM_FILE: `platformFile`,
     IS_CONFIG: `isConfig`,
     HTTP_HEADER:{
         headers:{
@@ -66,6 +70,33 @@ const CMD_ARGUMENTS = {
     HELP_ARG: `--h`
 }
 
+const PLATFORM = {
+    FOLDERS:{
+        $TYPE_EXTENSION_D1: `$TypeExtensionD1`,
+        CUSTOM_OBJECT_MODULE: `CustomObjectModule`,
+        PLATFORM_LOCALIZATION: `PlatformLocalization`,
+        TYPE_EXTENSION_SCRIPT: `typeExtensionScript`
+    },
+    FILES:{
+        METADATA_PROPERTIES: `metadata.properties`,
+        DEFAULT_RANK: 10,
+        RANK: 10,
+        PLATFORM_MODULE: `PlatformModule`,
+        FILE_NAME: ``,
+        set SET_RANK (rank) {
+            this.RANK = `${rank}`
+        },
+        get GET_RANK () {
+            return this.RANK
+        },
+        set SET_FILE_NAME (name) {
+            this.FILE_NAME = `${name}__Rank-${this.GET_RANK}`
+        },
+        get GET_FILE_NAME () {
+            return this.FILE_NAME
+        }
+    }
+}
 
 const GENERAL = {
     ENCODING_UTF8: `utf8`,
@@ -101,7 +132,8 @@ const GTNEXUS = {
         OQL: `oql`,
         QUERY: `query`,
         VERSION:{
-            LATEST: `3.1`
+            LATEST: `3.1`,
+            FULL_VERSION: `310`
         },
     },
     get SUPQ_URL() {
@@ -118,7 +150,8 @@ const FILES = {
         JS: `.js`,
         SPEC: `.spec.js`,
         _JSON: `.json`,
-        INI: `.ini`
+        INI: `.ini`,
+        XML: `.xml`
     },
     RESOURCES: `resources`,
     TYPE_EXTENSION_MODULE: `TypeExtensionModule`
@@ -372,5 +405,6 @@ export default{
     OPTIONS,
     fields,
     CMD_ARGUMENTS,
-    STARTUP_LOG
+    STARTUP_LOG,
+    PLATFORM
 }

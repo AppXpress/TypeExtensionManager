@@ -1,6 +1,7 @@
 import CONSTANTS from './constants'
 import path from 'path'
 import Cryptr from 'cryptr'
+import setupPlatformFile from './utility/platformUtility/setupPlatformFile'
 
 const cryptr = new Cryptr('gtnexusisBest@123')
 
@@ -22,6 +23,11 @@ const {
   setupSampleData,
   setupCustomerResources,
 } = require('./utility/customerUtility')
+
+const {
+  createPlatformFolders,
+  createPlatformFiles
+} = require('./utility/platformUtility')
 
 let {
   GENERAL: {
@@ -60,12 +66,23 @@ let {
 let initModules = () => {
   console.log(`HELP: npm start -- --h`)
   return new Promise((resolve, reject) => {
-    isFileExisting(`.`, `${configFile}`, `ini`).then((isExisting) => {
-      readFile(`.`, `${configFile}`, `ini`).then((data) => {
-        essentials = JSON.parse(data)
-        essentials[EXISTING] = isExisting
-        resolve(essentials)
-      })
+    isFileExisting(`.`, `${configFile}`, `.ini`).then((isExisting) => {
+      if(!isExisting){
+        createFile(`.`, `${configFile}`, `.ini`).then(() => {
+          essentials[EXISTING] = false
+          resolve(essentials)
+        })
+          .catch((err) => {
+            console.log(err)
+            reject()
+          })
+      }else{
+        readFile(`.`, `${configFile}`, `ini`).then((data) => {
+          essentials = JSON.parse(data)
+          essentials[EXISTING] = isExisting
+          resolve(essentials)
+        })
+      }
     }).catch((nonExistent) => {
       createFile(`.`, `${configFile}`, `.ini`).then(() => {
           essentials[EXISTING] = nonExistent
@@ -186,10 +203,20 @@ let processCustomer = (essentials) => {
   })
 }
 
+let processPlatformModule = (essentials) => {
+  return new Promise(async (resolve, reject) => {
+    await createPlatformFolders(essentials)
+    await createPlatformFiles(essentials)
+    await setupPlatformFile(essentials)
+    resolve()
+  })
+}
+
 
 export default {
   initModules,
   writeUserData,
   getBasicKey,
-  processCustomer
+  processCustomer,
+  processPlatformModule
 }

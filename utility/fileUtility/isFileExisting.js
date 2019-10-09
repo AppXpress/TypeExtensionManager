@@ -4,16 +4,25 @@ export default (path, fileName, fileExtension) => {
     return new Promise((resolve, reject) => {
         if(path && fileExtension && fileName){
             try{
-                let data = fs.readFileSync(`${path}/${fileName}.${fileExtension}`, 'utf8')
-                if(data){
-                    resolve(true)
+                const isFileExisting = fs.existsSync(`${path}/${fileName}${fileExtension}`)
+                if(isFileExisting){
+                    let data = fs.readFileSync(`${path}/${fileName}${fileExtension}`, 'utf8')
+                    if(data){
+                        resolve(true)
+                    }else if(data.length === 0){
+                        resolve(true)
+                    }else{
+                        console.log(data)
+                        resolve(false)
+                    }
                 }else{
-                    console.log(data)
-                    reject(false)
+                    resolve(false)
                 }
             }catch(fe){
-                reject(false)                
+                reject(false)
             }
+        }else{
+            resolve(false)
         }
     })
 }

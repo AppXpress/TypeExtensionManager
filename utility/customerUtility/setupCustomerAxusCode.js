@@ -45,10 +45,14 @@ export default (essentials) => {
       let who = `${essentials[USER][USER_NAME].charAt(0).toUpperCase()}${essentials[USER][USER_NAME].charAt(1).toUpperCase()}` || WHO
       let description = `${DESCRIPTION}`
       let code = constructCode(essentials, jiraNumber, date, who, description)
-      isFileExisting(`${essentials[FILE][CUSTOMER_TEST_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}/`,`${essentials[CUSTOMER][RULE_SET_TYPE]}${SPEC}`,`${SPEC}`).then((res) => {
+      isFileExisting(`${essentials[FILE][CUSTOMER_TEST_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}/`,`${essentials[CUSTOMER][RULE_SET_TYPE]}`,`${SPEC}`).then((res) => {
         let data = fs.readFileSync(`${essentials[FILE][CUSTOMER_TEST_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}/${essentials[CUSTOMER][RULE_SET_TYPE]}${SPEC}`, ENCODING_UTF8)
         if(data && data != ``){
           console.log(DATA_ALREADY_PRESENT)
+          resolve()
+        }else{
+          fs.writeFileSync(`${essentials[FILE][CUSTOMER_TEST_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}/${essentials[CUSTOMER][RULE_SET_TYPE]}${SPEC}`, code)
+          console.log(`${AXUS_INITIAL_CODE_SETUP}`)
           resolve()
         }
       })

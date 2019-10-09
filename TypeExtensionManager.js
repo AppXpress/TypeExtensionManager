@@ -7,7 +7,7 @@ import utils from './utils'
 import CONSTANTS from './constants'
 import { runConfig } from './utility/customerUtility';
 
-let {initModules, writeUserData, getBasicKey, processCustomer} = utils
+let {initModules, writeUserData, getBasicKey, processCustomer, processPlatformModule} = utils
 let {CMD_ARGUMENTS:{DOC_ARG, TYPE_ARG, HELP_ARG}, STARTUP_LOG, MESSAGES:{HELP:{HELP_TEXT}}} = CONSTANTS
 
 const main = async () => {
@@ -34,6 +34,8 @@ const main = async () => {
       runConfig(essentials, configType, rulesetType)
     }
     await processCustomer(essentials)
+    await processPlatformModule(essentials)
+    console.log(essentials)
     process.exit()
   })
 }
