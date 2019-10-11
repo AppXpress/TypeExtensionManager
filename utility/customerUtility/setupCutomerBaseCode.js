@@ -50,7 +50,6 @@ export default (essentials) => {
       let description = `${DESCRIPTION}`
       let code = constructCode(essentials, jiraNumber, date, who, description)
       let boolIsFileExisting = await isFileExisting(`${essentials[FILE][CUSTOMER_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}/${TYPE_EXTENSION_SCRIPT}`,`${essentials[CUSTOMER][RULE_SET_TYPE]}`,`${JS}`)
-      console.log(boolIsFileExisting+ ":"+"->")
       if (boolIsFileExisting)  {
         let data = fs.readFileSync(`${essentials[FILE][CUSTOMER_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}/${TYPE_EXTENSION_SCRIPT}/${essentials[CUSTOMER][RULE_SET_TYPE]}${JS}`)
         if(data.length != 0){

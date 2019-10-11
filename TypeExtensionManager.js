@@ -35,7 +35,6 @@ const main = async () => {
     }
     await processCustomer(essentials)
     await processPlatformModule(essentials)
-    console.log(essentials)
     process.exit()
   })
 }

@@ -557,15 +557,12 @@ let setupPlatformModuleFile = (essentials) =>{
   ]
 }
         `
-    console.log(`BOOLISEXISTING `+boolIsExisting)
         if(boolIsExisting){
             const data = fs.readFileSync(`${essentials[CUSTOMER][MODULE_PATH]}/${PLATFORM_MODULE}${XML}`, 'utf8')
-            console.log("DATA:"+data.length)
             if(data.length === 0){
                 isDataExisting = false
             }else{
                 isDataExisting = true
-                console.log("YES DATA EXISTS")
             }
         }else{
             isDataExisting = false
@@ -581,5 +578,4 @@ let setupPlatformModuleFile = (essentials) =>{
 
             }
         }
-    console.log(`ISDATAEXISTING `+isDataExisting)
 }
