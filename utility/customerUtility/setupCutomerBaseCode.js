@@ -1,5 +1,5 @@
 import fs from 'fs';
-import moment from 'moment';
+import moment from 'moment'
 import CONSTANTS from '../../constants';
 import {isFileExisting} from "../fileUtility";
 const {
@@ -21,6 +21,11 @@ const {
       JS,
     }
   },
+    PLATFORM:{
+      FOLDERS:{
+        TYPE_EXTENSION_SCRIPT
+      }
+    },
   GENERAL: {
     DATE_FORMAT,
     WHO,
@@ -44,19 +49,19 @@ export default (essentials) => {
       let who = `${essentials[USER][USER_NAME].charAt(0).toUpperCase()}${essentials[USER][USER_NAME].charAt(1).toUpperCase()}` || WHO
       let description = `${DESCRIPTION}`
       let code = constructCode(essentials, jiraNumber, date, who, description)
-      let boolIsFileExisting = await isFileExisting(`${essentials[FILE][CUSTOMER_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}`,`${essentials[CUSTOMER][RULE_SET_TYPE]}`,`${JS}`)
+      let boolIsFileExisting = await isFileExisting(`${essentials[FILE][CUSTOMER_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}/${TYPE_EXTENSION_SCRIPT}`,`${essentials[CUSTOMER][RULE_SET_TYPE]}`,`${JS}`)
       console.log(boolIsFileExisting+ ":"+"->")
       if (boolIsFileExisting)  {
-        let data = fs.readFileSync(`${essentials[FILE][CUSTOMER_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}/${essentials[CUSTOMER][RULE_SET_TYPE]}${JS}`)
+        let data = fs.readFileSync(`${essentials[FILE][CUSTOMER_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}/${TYPE_EXTENSION_SCRIPT}/${essentials[CUSTOMER][RULE_SET_TYPE]}${JS}`)
         if(data.length != 0){
           console.log(DATA_ALREADY_PRESENT)
           resolve()
         }else{
-          fs.writeFileSync(`${essentials[FILE][CUSTOMER_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}/${essentials[CUSTOMER][RULE_SET_TYPE]}${JS}`, code)
+          fs.writeFileSync(`${essentials[FILE][CUSTOMER_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}/${TYPE_EXTENSION_SCRIPT}/${essentials[CUSTOMER][RULE_SET_TYPE]}${JS}`, code)
           resolve()
         }
       } else {
-        fs.writeFileSync(`${essentials[FILE][CUSTOMER_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}/${essentials[CUSTOMER][RULE_SET_TYPE]}${JS}`, code)
+        fs.writeFileSync(`${essentials[FILE][CUSTOMER_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}/${TYPE_EXTENSION_SCRIPT}/${essentials[CUSTOMER][RULE_SET_TYPE]}${JS}`, code)
         console.log(`${TYPE_EXTENSION_INITIAL_CODE_SETUP}`)
         resolve()
       }
@@ -70,8 +75,7 @@ export default (essentials) => {
 
 let constructCode = (essentials, jiraNumber, date, who, description) => {
   let eventType = `${essentials[CUSTOMER][EVENT]}`
-  let sampleCode = `
-  /**
+  let sampleCode = `/**
    *   C H A N G E    L  O G
    *
    *  (B)ug/(E)nh/(I)DB #    Date      Who  Description
@@ -82,7 +86,7 @@ let constructCode = (essentials, jiraNumber, date, who, description) => {
       /**
        * THIS IS AUTO GENERATED 
        */
-      console.log(${(essentials[CUSTOMER][DOC_SHORT_FORM]).toLowerCase()})
+      console.log(${(essentials[CUSTOMER][DOC_SHORT_FORM]).toLowerCase()});
     }
     \n\n\n\n\n\n\n\n\n
     //Utility
@@ -92,5 +96,5 @@ let constructCode = (essentials, jiraNumber, date, who, description) => {
       }
     }
     `
-  return '\uFEFF' + sampleCode.replace(/\n/g, '\r\n')
+  return sampleCode.replace(/\n/g, '\r\n')
 }

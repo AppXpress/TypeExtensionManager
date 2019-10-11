@@ -1,6 +1,8 @@
 import xmljsonParser from 'xml-js'
 import CONSTANTS from '../../constants'
+import moment from 'moment'
 import fs from 'fs'
+import {isFileExisting} from "../fileUtility";
 
 
 const {
@@ -11,17 +13,28 @@ const {
         EVENT,
         ADD_PLATFORM_FILE,
         PLATFORM_FILE,
-        MODULE_PATH
+        MODULE_PATH,
+        MODULE_NAME,
+        CUSTOMER_NAME
+    },
+    GENERAL:{
+        FULL_DATE_FORMAT
     },
     PLATFORM:{
         FILES,
+        FILES:{
+            PLATFORM_MODULE,
+            METADATA_PROPERTIES
+        },
         FOLDERS:{
-            $TYPE_EXTENSION_D1
+            $TYPE_EXTENSION_D1,
+            PLATFORM_LOCALIZATION
         }
     },
     FILES:{
         EXTENSIONS:{
-            XML
+            XML,
+            PROPERTIES
         }
     },
     GTNEXUS: {
@@ -36,6 +49,9 @@ const {
 
 export default (essentials) => {
     return new Promise((resolve, reject) => {
+        setupPlatformModuleFile(essentials)
+        setupMetaPropertiesFile(essentials)
+        setupPlatformLocalizationMetaProperties(essentials)
         if (essentials[CUSTOMER][ADD_PLATFORM_FILE]) {
             let platformData = `
             {
@@ -84,7 +100,7 @@ export default (essentials) => {
                           "elements": [
                             {
                               "type": "text",
-                              "text": ""
+                              "text": "${moment().format(FULL_DATE_FORMAT)}"
                             }
                           ]
                         },
@@ -94,7 +110,7 @@ export default (essentials) => {
                           "elements": [
                             {
                               "type": "text",
-                              "text": ""
+                              "text": "${moment().format(FULL_DATE_FORMAT)}"
                             }
                           ]
                         },
@@ -240,7 +256,7 @@ export default (essentials) => {
                           "elements": [
                             {
                               "type": "text",
-                              "text": "on${essentials[CUSTOMER][EVENT]}"
+                              "text": "on${essentials[CUSTOMER][EVENT] === "Populate"?"Save":essentials[CUSTOMER][EVENT]}"
                             }
                           ]
                         },
@@ -295,4 +311,275 @@ export default (essentials) => {
         }
 
     })
+}
+
+let setupMetaPropertiesFile = (essentials) => {
+    let boolMetaProperties = fs.existsSync(`${essentials[CUSTOMER][MODULE_PATH]}/${METADATA_PROPERTIES}${PROPERTIES}`)
+    let metaProperties = `environment.name=
+source.id=
+source.type=${PLATFORM_MODULE}
+source.revision=
+data.format=v100
+export.timestamp=
+name=${essentials[CUSTOMER][MODULE_NAME]}
+ownerId=
+            `
+    if(boolMetaProperties){
+        let metaPropertiesData = fs.readFileSync(`${essentials[CUSTOMER][MODULE_PATH]}/${METADATA_PROPERTIES}${PROPERTIES}`)
+        if(metaPropertiesData.length === 0){
+
+            fs.writeFileSync(`${essentials[CUSTOMER][MODULE_PATH]}/${METADATA_PROPERTIES}${PROPERTIES}`, metaProperties)
+        }
+    }else{
+        fs.writeFileSync(`${essentials[CUSTOMER][MODULE_PATH]}/${METADATA_PROPERTIES}${PROPERTIES}`, metaProperties)
+    }
+}
+
+let setupPlatformLocalizationMetaProperties = (essentials) => {
+    let boolMetaProperties = fs.existsSync(`${essentials[CUSTOMER][MODULE_PATH]}/${PLATFORM_LOCALIZATION}/${METADATA_PROPERTIES}${PROPERTIES}`)
+    let metaProperties = `environment.name=
+source.id=
+source.type=${PLATFORM_LOCALIZATION}
+source.revision=
+data.format=v100
+export.timestamp=
+            `
+    if(boolMetaProperties){
+        let metaPropertiesData = fs.readFileSync(`${essentials[CUSTOMER][MODULE_PATH]}/${PLATFORM_LOCALIZATION}/${METADATA_PROPERTIES}${PROPERTIES}`)
+        if(metaPropertiesData.length === 0){
+
+            fs.writeFileSync(`${essentials[CUSTOMER][MODULE_PATH]}/${PLATFORM_LOCALIZATION}/${METADATA_PROPERTIES}${PROPERTIES}`, metaProperties)
+        }
+    }else{
+        fs.writeFileSync(`${essentials[CUSTOMER][MODULE_PATH]}/${PLATFORM_LOCALIZATION}/${METADATA_PROPERTIES}${PROPERTIES}`, metaProperties)
+    }
+}
+
+let setupPlatformModuleFile = (essentials) =>{
+        // const boolIsExisting = await isFileExisting(`${essentials[CUSTOMER][MODULE_PATH]}`,`${PLATFORM_MODULE}`, `${XML}`)
+        const boolIsExisting = fs.existsSync(`${essentials[CUSTOMER][MODULE_PATH]}/${PLATFORM_MODULE}${XML}`)
+        let isDataExisting = false
+        let platformModuleFile = `
+            {
+  "elements": [
+    {
+      "type": "element",
+      "name": "PlatformModule400",
+      "elements": [
+        {
+          "type": "element",
+          "name": "__metadata",
+          "elements": [
+            {
+              "type": "element",
+              "name": "apiVersion",
+              "elements": [
+                {
+                  "type": "text",
+                  "text": "3.1"
+                }
+              ]
+            },
+            {
+              "type": "element",
+              "name": "type",
+              "elements": [
+                {
+                  "type": "text",
+                  "text": "PlatformModule"
+                }
+              ]
+            },
+            {
+              "type": "element",
+              "name": "uid",
+              "elements": [
+                {
+                  "type": "text",
+                  "text": ""
+                }
+              ]
+            },
+            {
+              "type": "element",
+              "name": "createTimestamp",
+              "elements": [
+                {
+                  "type": "text",
+                  "text": "${moment().format(FULL_DATE_FORMAT)}"
+                }
+              ]
+            },
+            {
+              "type": "element",
+              "name": "modifyTimestamp",
+              "elements": [
+                {
+                  "type": "text",
+                  "text": "${moment().format(FULL_DATE_FORMAT)}"
+                }
+              ]
+            },
+            {
+              "type": "element",
+              "name": "status",
+              "elements": [
+                {
+                  "type": "text",
+                  "text": "Active"
+                }
+              ]
+            },
+            {
+              "type": "element",
+              "name": "fingerprint",
+              "elements": [
+                {
+                  "type": "text",
+                  "text": ""
+                }
+              ]
+            },
+            {
+              "type": "element",
+              "name": "self",
+              "elements": [
+                {
+                  "type": "text",
+                  "text": ""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "element",
+          "name": "moduleId",
+          "elements": [
+            {
+              "type": "text",
+              "text": ""
+            }
+          ]
+        },
+        {
+          "type": "element",
+          "name": "createTimestamp",
+          "elements": [
+            {
+              "type": "text",
+              "text": "${moment().format(FULL_DATE_FORMAT)}"
+            }
+          ]
+        },
+        {
+          "type": "element",
+          "name": "modifyTimestamp",
+          "elements": [
+            {
+              "type": "text",
+              "text": "${moment().format(FULL_DATE_FORMAT)}"
+            }
+          ]
+        },
+        {
+          "type": "element",
+          "name": "authorId",
+          "elements": [
+            {
+              "type": "text",
+              "text": ""
+            }
+          ]
+        },
+        {
+          "type": "element",
+          "name": "authorType",
+          "elements": [
+            {
+              "type": "text",
+              "text": "Organization"
+            }
+          ]
+        },
+        {
+          "type": "element",
+          "name": "ownerId",
+          "elements": [
+            {
+              "type": "text",
+              "text": ""
+            }
+          ]
+        },
+        {
+          "type": "element",
+          "name": "ownerType",
+          "elements": [
+            {
+              "type": "text",
+              "text": "TradeCustomer"
+            }
+          ]
+        },
+        {
+          "type": "element",
+          "name": "name",
+          "elements": [
+            {
+              "type": "text",
+              "text": "${essentials[CUSTOMER][MODULE_NAME]}"
+            }
+          ]
+        },
+        {
+          "type": "element",
+          "name": "description",
+          "elements": [
+            {
+              "type": "text",
+              "text": "${essentials[CUSTOMER][CUSTOMER_NAME]} ${essentials[CUSTOMER][DOCUMENT_TYPE]} TypeExtension Module"
+            }
+          ]
+        },
+        {
+          "type": "element",
+          "name": "userVersion",
+          "elements": [
+            {
+              "type": "text",
+              "text": "1.0"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+        `
+    console.log(`BOOLISEXISTING `+boolIsExisting)
+        if(boolIsExisting){
+            const data = fs.readFileSync(`${essentials[CUSTOMER][MODULE_PATH]}/${PLATFORM_MODULE}${XML}`, 'utf8')
+            console.log("DATA:"+data.length)
+            if(data.length === 0){
+                isDataExisting = false
+            }else{
+                isDataExisting = true
+                console.log("YES DATA EXISTS")
+            }
+        }else{
+            isDataExisting = false
+        }
+        if(isDataExisting){
+            return
+        }else{
+            let options = {compact: false, ignoreComment: true, spaces: 4};
+            try {
+                let result = xmljsonParser.json2xml(JSON.parse(platformModuleFile), options);
+                fs.writeFileSync(`${essentials[CUSTOMER][MODULE_PATH]}/${PLATFORM_MODULE}${XML}`, result)
+            } catch (parseError) {
+
+            }
+        }
+    console.log(`ISDATAEXISTING `+isDataExisting)
 }

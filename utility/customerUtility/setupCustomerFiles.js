@@ -22,6 +22,11 @@ const {
             SPEC
         }
     },
+    PLATFORM:{
+      FOLDERS:{
+          TYPE_EXTENSION_SCRIPT
+      }
+    },
     MESSAGES: {
         INFO: {
             COULD_NOT_CREATE_AXUS_TEST_FILE,
@@ -34,13 +39,13 @@ const {
 export default (essentials) => {
     return new Promise((resolve, reject) => {
         if (essentials && essentials[CUSTOMER] && essentials[CUSTOMER][CUSTOMER_NAME] && essentials[CUSTOMER][MODULE_NAME]) {
-            isFileExisting(`${essentials[FILE][CUSTOMER_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}`, `${essentials[CUSTOMER][RULE_SET_TYPE]}`, `${JS}`).then((isExisting) => {
+            isFileExisting(`${essentials[FILE][CUSTOMER_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}/${TYPE_EXTENSION_SCRIPT}`, `${essentials[CUSTOMER][RULE_SET_TYPE]}`, `${JS}`).then((isExisting) => {
                 if (isExisting) {
                     essentials[CUSTOMER][MODULE_PATH] = `${essentials[FILE][CUSTOMER_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}`
                     essentials[CUSTOMER][ADD_PLATFORM_FILE] = false
                     console.log(DATA_ALREADY_PRESENT)
                 } else {
-                    createFile(`${essentials[FILE][CUSTOMER_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}`, `${essentials[CUSTOMER][RULE_SET_TYPE]}`, `${JS}`).then((fileCreationStatus) => {
+                    createFile(`${essentials[FILE][CUSTOMER_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}/${TYPE_EXTENSION_SCRIPT}`, `${essentials[CUSTOMER][RULE_SET_TYPE]}`, `${JS}`).then((fileCreationStatus) => {
                       essentials[CUSTOMER][ADD_PLATFORM_FILE] = true
                         createFile(`${essentials[FILE][CUSTOMER_TEST_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}`, `${essentials[CUSTOMER][RULE_SET_TYPE]}`, `${SPEC}`)
                             .then(() => {

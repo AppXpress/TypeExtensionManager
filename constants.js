@@ -78,7 +78,7 @@ const PLATFORM = {
         TYPE_EXTENSION_SCRIPT: `typeExtensionScript`
     },
     FILES:{
-        METADATA_PROPERTIES: `metadata.properties`,
+        METADATA_PROPERTIES: `metadata`,
         DEFAULT_RANK: 10,
         RANK: 10,
         PLATFORM_MODULE: `PlatformModule`,
@@ -106,6 +106,7 @@ const GENERAL = {
     JIRA_BUG_HEADER: `GTBUG-`,
     JIRA_DEFAULT_TEXT: `CHANGEME`,
     DATE_FORMAT: `MM/DD/YYYY`,
+    FULL_DATE_FORMAT: `YYYY-MM-DD HH:mm:ss.SSS`,
     WHO: `¯\\_(ツ)_/¯`,
     DESCRIPTION: `New`,
     AFFIRM: [`YES`, `Y`],
@@ -151,7 +152,8 @@ const FILES = {
         SPEC: `.spec.js`,
         _JSON: `.json`,
         INI: `.ini`,
-        XML: `.xml`
+        XML: `.xml`,
+        PROPERTIES: `.properties`
     },
     RESOURCES: `resources`,
     TYPE_EXTENSION_MODULE: `TypeExtensionModule`
