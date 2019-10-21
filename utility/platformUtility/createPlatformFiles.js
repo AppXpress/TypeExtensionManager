@@ -9,7 +9,8 @@ const {
         RANK,
         MODULE_PATH,
         DOCUMENT_TYPE,
-        ADD_PLATFORM_FILE
+        ADD_PLATFORM_FILE,
+        PMM_SAFE_FILE_REQUIRED
     },
     FILES:{
         EXTENSIONS:{
@@ -41,6 +42,9 @@ export default (essentials) => {
             FILES.SET_RANK = rank
             FILES.SET_FILE_NAME = `${essentials[CUSTOMER][DOCUMENT_TYPE]}`
             boolIsFileExisting = await isFileExisting(`${$typeExtensionD1}`, `${FILES.GET_FILE_NAME}`, `${XML}`)
+            if(rank > 10){
+                essentials[CUSTOMER][PMM_SAFE_FILE_REQUIRED] = true
+            }
         }
         if(essentials[CUSTOMER][ADD_PLATFORM_FILE]){
             await createFile($typeExtensionD1, FILES.GET_FILE_NAME, `${XML}`)

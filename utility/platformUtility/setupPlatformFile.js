@@ -2,6 +2,7 @@ import xmljsonParser from 'xml-js'
 import CONSTANTS from '../../constants'
 import moment from 'moment'
 import fs from 'fs'
+import shell from 'shelljs'
 import {isFileExisting} from "../fileUtility";
 
 
@@ -15,10 +16,12 @@ const {
         PLATFORM_FILE,
         MODULE_PATH,
         MODULE_NAME,
-        CUSTOMER_NAME
+        CUSTOMER_NAME,
+        PMM_SAFE_FILE_REQUIRED
     },
     GENERAL:{
-        FULL_DATE_FORMAT
+        FULL_DATE_FORMAT,
+        BUNDLE
     },
     PLATFORM:{
         FILES,
@@ -28,7 +31,8 @@ const {
         },
         FOLDERS:{
             $TYPE_EXTENSION_D1,
-            PLATFORM_LOCALIZATION
+            PLATFORM_LOCALIZATION,
+            TYPE_EXTENSION_SCRIPT
         }
     },
     FILES:{
@@ -302,6 +306,10 @@ export default (essentials) => {
                 let result = xmljsonParser.json2xml(JSON.parse(platformData), options);
                 essentials[CUSTOMER][PLATFORM_FILE] = result
                 fs.writeFileSync(`${essentials[CUSTOMER][MODULE_PATH]}/${$TYPE_EXTENSION_D1}/${FILES.GET_FILE_NAME}${XML}`, essentials[CUSTOMER][PLATFORM_FILE])
+                if(essentials[CUSTOMER][PMM_SAFE_FILE_REQUIRED]){
+                    shell.mkdir(`-p`, `${essentials[CUSTOMER][MODULE_PATH]}/${TYPE_EXTENSION_SCRIPT}/${essentials[CUSTOMER][MODULE_NAME]}${BUNDLE}`)
+                    shell.mv( `${essentials[CUSTOMER][MODULE_PATH]}/${TYPE_EXTENSION_SCRIPT}/*.js`, `${essentials[CUSTOMER][MODULE_PATH]}/${TYPE_EXTENSION_SCRIPT}/${essentials[CUSTOMER][MODULE_NAME]}${BUNDLE}`)
+                }
                 resolve()
             } catch (parseError) {
                 reject()

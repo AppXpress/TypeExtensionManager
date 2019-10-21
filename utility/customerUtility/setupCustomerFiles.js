@@ -3,6 +3,7 @@ import {
     isFileExisting
 } from '../fileUtility'
 import CONSTANTS from '../../constants'
+import shell from 'shelljs'
 
 const {
     fields: {
@@ -14,7 +15,8 @@ const {
         CUSTOMER_TEST_DIRECTORY,
         MODULE_NAME,
         MODULE_PATH,
-        ADD_PLATFORM_FILE
+        ADD_PLATFORM_FILE,
+        PMM_SAFE_FILE_REQUIRED
     },
     FILES: {
         EXTENSIONS: {

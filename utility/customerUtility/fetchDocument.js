@@ -30,7 +30,6 @@ const {
 export default (queriedObject, essential, options, poNumber) => {
   if (!poNumber) {
     return new Promise((resolve, reject) => {
-      console.log(JSON.stringify(queriedObject))
       if (essential[CUSTOMER][QUERY_URL] && essential[CUSTOMER][FETCH_URL] && queriedObject) {
         if (queriedObject && queriedObject[RESULT] && queriedObject[RESULT].length > 0) {
           let objectUidsList = [...new Set(queriedObject[RESULT].map(item => item[`${DOCTYPES[essential[CUSTOMER][DOC_SHORT_FORM]][OBJECT_UID]}`]))]

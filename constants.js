@@ -42,6 +42,7 @@ const fields = {
     RANK: `rank`,
     PLATFORM_FILE: `platformFile`,
     IS_CONFIG: `isConfig`,
+    PMM_SAFE_FILE_REQUIRED: `pmmSafeFileRequired`,
     HTTP_HEADER:{
         headers:{
             Authorization: ``,
@@ -113,7 +114,8 @@ const GENERAL = {
     NEGATIVE: [`NO`, `N`],
     GET: `get`,
     POST: `post`,
-    SEED: `seed`
+    SEED: `seed`,
+    BUNDLE: `Bundle`
 }
 
 const GENERAL_GTNEXUS_OBJECTS = {
