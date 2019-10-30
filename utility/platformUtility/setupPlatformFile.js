@@ -17,7 +17,8 @@ const {
         MODULE_PATH,
         MODULE_NAME,
         CUSTOMER_NAME,
-        PMM_SAFE_FILE_REQUIRED
+        PMM_SAFE_FILE_REQUIRED,
+        PLATFORM_EVENT
     },
     GENERAL:{
         FULL_DATE_FORMAT,
@@ -260,7 +261,7 @@ export default (essentials) => {
                           "elements": [
                             {
                               "type": "text",
-                              "text": "on${essentials[CUSTOMER][EVENT] === "Populate"?"Save":essentials[CUSTOMER][EVENT]}"
+                              "text": "${essentials[CUSTOMER][PLATFORM_EVENT]}"
                             }
                           ]
                         },

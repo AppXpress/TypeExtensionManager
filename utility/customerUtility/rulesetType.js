@@ -14,8 +14,13 @@ const {
     VALIDATIONS,
     VLD,
     VLDS,
+    WARNINGS,
+    WARNING,
+    WRNS,
+    WRN,
     POPULATE,
-    VALIDATE
+    VALIDATE,
+    WARN
   },
   MESSAGES: {
     ERRORS: {
@@ -29,15 +34,18 @@ const {
     DOCUMENT_TYPE,
     EVENT,
     IS_CONFIG,
-    MODULE_NAME
+    MODULE_NAME,
+    PLATFORM_EVENT
   },
   RULE_SET: {
     POP_RULE_SET,
-    VLD_RULE_SET
+    VLD_RULE_SET,
+    WRN_RULE_SET
   },
   OPTIONS: {
     ONE,
-    TWO
+    TWO,
+    THREE
   },
   FILES: {
     TYPE_EXTENSION_MODULE
@@ -67,6 +75,7 @@ let settingRulesetType = (rulesetName, essentials) => {
   let type = null
   let event = null
   let moduleName = null
+  let platformEvent = null
 
   switch (rulesetName.toLowerCase()) {
     case POP.toLowerCase():
@@ -77,6 +86,7 @@ let settingRulesetType = (rulesetName, essentials) => {
       type = essentials[CUSTOMER][CUSTOMER_NAME] + essentials[CUSTOMER][DOCUMENT_TYPE] + POP_RULE_SET
       event = POPULATE
       moduleName = essentials[CUSTOMER][CUSTOMER_NAME] + essentials[CUSTOMER][DOCUMENT_TYPE] + `${TYPE_EXTENSION_MODULE}`
+      platformEvent = `onSave`
       break
 
     case VLD.toLowerCase():
@@ -87,6 +97,18 @@ let settingRulesetType = (rulesetName, essentials) => {
       type = essentials[CUSTOMER][CUSTOMER_NAME] + essentials[CUSTOMER][DOCUMENT_TYPE] + VLD_RULE_SET
       event = VALIDATE
       moduleName = essentials[CUSTOMER][CUSTOMER_NAME] + essentials[CUSTOMER][DOCUMENT_TYPE] + `${TYPE_EXTENSION_MODULE}`
+      platformEvent = `onValidate`
+      break
+
+    case WRN.toLowerCase():
+    case WRNS.toLowerCase():
+    case WARNING.toLowerCase():
+    case WARNINGS.toLowerCase():
+    case THREE:
+      type = essentials[CUSTOMER][CUSTOMER_NAME] + essentials[CUSTOMER][DOCUMENT_TYPE] + WRN_RULE_SET
+      event = WARN
+      moduleName = essentials[CUSTOMER][CUSTOMER_NAME] + essentials[CUSTOMER][DOCUMENT_TYPE] + `${TYPE_EXTENSION_MODULE}`
+      platformEvent = `onValidate`
       break
     default:
       reject(new Error(NO_RULESET_TYPE_RPOVIDED))
@@ -95,4 +117,5 @@ let settingRulesetType = (rulesetName, essentials) => {
   essentials[CUSTOMER][RULE_SET_TYPE] = type
   essentials[CUSTOMER][EVENT] = event
   essentials[CUSTOMER][MODULE_NAME] = moduleName
+  essentials[CUSTOMER][PLATFORM_EVENT] = platformEvent
 }

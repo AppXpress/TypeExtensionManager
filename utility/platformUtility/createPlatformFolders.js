@@ -20,7 +20,6 @@ const {
 
 export default (essentials) => {
     return new Promise(async (resolve, reject) => {
-        console.log(essentials)
         const $typeExtensionPathD1 = `${essentials[CUSTOMER][MODULE_PATH]}/${$TYPE_EXTENSION_D1}`
         const platformLocalization = `${essentials[CUSTOMER][MODULE_PATH]}/${PLATFORM_LOCALIZATION}`
         const typeExtensionScript = `${essentials[CUSTOMER][MODULE_PATH]}/${TYPE_EXTENSION_SCRIPT}`
