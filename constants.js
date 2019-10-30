@@ -34,9 +34,16 @@ const fields = {
     AUTHORIZATION: `Authorization`,
     OBJECT_FIELDS: `OBJECT_FIELDS`,
     EVENT: `Event`,
+    MODULE_NAME: `moduleName`,
     IS_SAMPLE_REQUIRED: `isSampleRequired`,
+    MODULE_PATH: `modulePath`,
+    ADD_PLATFORM_FILE: `addPlatformFile`,
     FILE: `file`,
+    RANK: `rank`,
+    PLATFORM_FILE: `platformFile`,
     IS_CONFIG: `isConfig`,
+    PMM_SAFE_FILE_REQUIRED: `pmmSafeFileRequired`,
+    PLATFORM_EVENT: `platformEvent`,
     HTTP_HEADER:{
         headers:{
             Authorization: ``,
@@ -65,6 +72,33 @@ const CMD_ARGUMENTS = {
     HELP_ARG: `--h`
 }
 
+const PLATFORM = {
+    FOLDERS:{
+        $TYPE_EXTENSION_D1: `$TypeExtensionD1`,
+        CUSTOM_OBJECT_MODULE: `CustomObjectModule`,
+        PLATFORM_LOCALIZATION: `PlatformLocalization`,
+        TYPE_EXTENSION_SCRIPT: `typeExtensionScript`
+    },
+    FILES:{
+        METADATA_PROPERTIES: `metadata`,
+        DEFAULT_RANK: 10,
+        RANK: 10,
+        PLATFORM_MODULE: `PlatformModule`,
+        FILE_NAME: ``,
+        set SET_RANK (rank) {
+            this.RANK = `${rank}`
+        },
+        get GET_RANK () {
+            return this.RANK
+        },
+        set SET_FILE_NAME (name) {
+            this.FILE_NAME = `${name}__Rank-${this.GET_RANK}`
+        },
+        get GET_FILE_NAME () {
+            return this.FILE_NAME
+        }
+    }
+}
 
 const GENERAL = {
     ENCODING_UTF8: `utf8`,
@@ -74,13 +108,15 @@ const GENERAL = {
     JIRA_BUG_HEADER: `GTBUG-`,
     JIRA_DEFAULT_TEXT: `CHANGEME`,
     DATE_FORMAT: `MM/DD/YYYY`,
+    FULL_DATE_FORMAT: `YYYY-MM-DD HH:mm:ss.SSS`,
     WHO: `¯\\_(ツ)_/¯`,
-    DESCRIPTION: `UPDATE THE DESCRIPTION`,
+    DESCRIPTION: `New`,
     AFFIRM: [`YES`, `Y`],
     NEGATIVE: [`NO`, `N`],
     GET: `get`,
     POST: `post`,
-    SEED: `seed`
+    SEED: `seed`,
+    BUNDLE: `Bundle`
 }
 
 const GENERAL_GTNEXUS_OBJECTS = {
@@ -100,7 +136,8 @@ const GTNEXUS = {
         OQL: `oql`,
         QUERY: `query`,
         VERSION:{
-            LATEST: `3.1`
+            LATEST: `3.1`,
+            FULL_VERSION: `310`
         },
     },
     get SUPQ_URL() {
@@ -117,9 +154,12 @@ const FILES = {
         JS: `.js`,
         SPEC: `.spec.js`,
         _JSON: `.json`,
-        INI: `.ini`
+        INI: `.ini`,
+        XML: `.xml`,
+        PROPERTIES: `.properties`
     },
     RESOURCES: `resources`,
+    TYPE_EXTENSION_MODULE: `TypeExtensionModule`
 
 }
 
@@ -270,17 +310,25 @@ const EVENTS = {
     VALIDATIONS: `Validations`,
     VLD: `Vld`,
     VLDS: `Vlds`,
+    WARNING: `Warning`,
+    WARNINGS: `Warnings`,
+    WRN: `Wrn`,
+    WRNS: `Wrns`,
     POPULATE: `Populate`,
-    VALIDATE: `Validate`
+    VALIDATE: `Validate`,
+    WARN: `Warn`
 }
 
 const RULE_SET = {
-    RULE_SET: `RuleSet`,
+    RULE_SET: `TypeExtension`,
     get POP_RULE_SET() {
         return EVENTS.POPULATIONS + this.RULE_SET
     },
     get VLD_RULE_SET() {
         return EVENTS.VALIDATIONS + this.RULE_SET
+    },
+    get WRN_RULE_SET() {
+        return EVENTS.WARNINGS + this.RULE_SET
     }
 }
 
@@ -299,7 +347,7 @@ const OPTIONS = {
 const QUESTIONS = {
     QUESTION_CUSTOMER_NAME: `Enter Customer Name: `,
     QUESTION_DOCUMENT_TYPE: `Document Type - \n1.${DOCTYPES.PO.SHORT_FORM}\n2.${DOCTYPES.INV.SHORT_FORM}\n3.${DOCTYPES.PP.SHORT_FORM}\n4.${DOCTYPES.PL.SHORT_FORM}\n5.Custom Document Name\nOPTION: `,
-    QUESTION_RULESET_TYPE: `Type of ruleset:\n1.${EVENTS.POPULATION}\n2.${EVENTS.VALIDATION}\nOPTION: `,
+    QUESTION_RULESET_TYPE: `Type of ruleset:\n1.${EVENTS.POPULATION}\n2.${EVENTS.VALIDATION}\n3.${EVENTS.WARNING}\nOPTION: `,
     QUESTION_JIRA_NUMBER: `Add your JIRA#: `,
     QUESTION_SAMPLE_DATA_REQUEST: `Would you like me to fetch some sample data for you?[Y|N]: `,
     QUESTION_SAMPLE_DATA: `Provide your SampleRef#: `,
@@ -324,7 +372,8 @@ const MESSAGES = {
         NOT_MUCH_INFO: `I do not have much info to create your file`,
         DATA_ALREADY_PRESENT: `Looks like you already have some code in there`,
         DID_NOT_FETCH_DATA: `Okay! I did not setup any sample data for you`,
-        PICKED_ENV: `Okay so you picked `
+        PICKED_ENV: `Okay so you picked `,
+        DOCUMENT_NOT_EXISTING: `Looks like the document isn't existing`
     },
     HELP:{
         HELP_TEXT: `HELP INFO:\n|-> npm start --- Runs the tool\n|-> npm start doc <DOCUMENT_TYPE> type <RULESET_TYPE>\n\t|-> doc: Specifies your are providing a document type as your next argument\n\t|-> type: Specifies you are providing a ruleset type as your next argument\n|-> MORE INFO: https://wiki.gtnexus.info/display/PSO/Type+Extension+Manager`
@@ -370,5 +419,6 @@ export default{
     OPTIONS,
     fields,
     CMD_ARGUMENTS,
-    STARTUP_LOG
+    STARTUP_LOG,
+    PLATFORM
 }

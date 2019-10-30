@@ -1,4 +1,4 @@
-import CONSTANTS from '../../constants'
+ import CONSTANTS from '../../constants'
 import {
   createFolder
 } from '../fileUtility'
@@ -14,11 +14,17 @@ const {
     CUSTOMER_NAME,
     FILE,
     CUSTOMER_DIRECTORY,
-    CUSTOMER_TEST_DIRECTORY
+    CUSTOMER_TEST_DIRECTORY,
+    MODULE_NAME
+  },
+  PLATFORM:{
+    FOLDERS:{
+      TYPE_EXTENSION_SCRIPT
+    }
   },
   FILES: {
     RESOURCES
-  }
+  },
 } = CONSTANTS
 
 
@@ -27,11 +33,11 @@ export default (essential) => {
   return new Promise((resolve, reject) => {
     if (essential[CUSTOMER] && essential[CUSTOMER][CUSTOMER_NAME]) {
       const customerName = essential[CUSTOMER][CUSTOMER_NAME]
-      createFolder(`${essential[FILE][CUSTOMER_DIRECTORY]}/${customerName}/${essential[CUSTOMER][RULE_SET_TYPE]}`)
+      createFolder(`${essential[FILE][CUSTOMER_DIRECTORY]}/${customerName}/${essential[CUSTOMER][MODULE_NAME]}/${TYPE_EXTENSION_SCRIPT}`)
         .then((customerFolderCreationStauts) => {
-          createFolder(`${essential[FILE][CUSTOMER_TEST_DIRECTORY]}/${customerName}/${essential[CUSTOMER][RULE_SET_TYPE]}`)
+          createFolder(`${essential[FILE][CUSTOMER_TEST_DIRECTORY]}/${customerName}/${essential[CUSTOMER][MODULE_NAME]}`)
             .then(() => {
-              createFolder(`${essential[FILE][CUSTOMER_TEST_DIRECTORY]}/${customerName}/${essential[CUSTOMER][RULE_SET_TYPE]}/${RESOURCES}`).then((status) => {
+              createFolder(`${essential[FILE][CUSTOMER_TEST_DIRECTORY]}/${customerName}/${essential[CUSTOMER][MODULE_NAME]}/${RESOURCES}`).then((status) => {
                 resolve()
               })
             })

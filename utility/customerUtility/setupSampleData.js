@@ -7,6 +7,8 @@ import {
   setupSeedFile
 } from '../customerUtility';
 
+import {writeToFile} from '../fileUtility'
+
 import node_path from 'upath'
 
 const {
@@ -37,7 +39,8 @@ const {
     QUERY_URL,
     FETCH_URL,
     IS_SAMPLE_REQUIRED,
-    ORDERS_FIELD
+    ORDERS_FIELD,
+    MODULE_NAME
   },
   QUESTIONS: {
     QUESTION_SAMPLE_DATA_REQUEST,
@@ -167,7 +170,8 @@ let fetchRelatedOrders = (essential, fetchedObject, options) => {
 }
 
 let setupResources = (essentials, data, docType, suffix) => {
-  fs.writeFileSync(`${essentials[FILE][CUSTOMER_TEST_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][RULE_SET_TYPE]}/${RESOURCES}/${docType||essentials[CUSTOMER][DOCUMENT_TYPE]}${_JSON}`, data)
+   writeToFile(`${essentials[FILE][CUSTOMER_TEST_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}/${RESOURCES}`,`${docType||essentials[CUSTOMER][DOCUMENT_TYPE]}`, `${_JSON}`, data)
+  // fs.writeFileSync(`${essentials[FILE][CUSTOMER_TEST_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}/${RESOURCES}/${docType||essentials[CUSTOMER][DOCUMENT_TYPE]}${_JSON}`, data)
 }
 
 let settingupSampleData = (essential, isDataRequired) => {

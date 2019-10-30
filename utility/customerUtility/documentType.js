@@ -79,8 +79,8 @@ let settingDocumentType = (documentType, essentials) => {
 
       case PL.SHORT_FORM.toLowerCase():
       case PL.FULL_FORM.toLowerCase():
-      case PL.PACKING_PLAN.toLowerCase():
-      case PL.PACKING_PLAN_MANIFEST.toLowerCase():
+      case PL.PACKING_MANIFEST.toLowerCase():
+      case PL.PACKING_LIST.toLowerCase():
       case FOUR:
         docType = PL.FULL_FORM
         shortForm = PL.SHORT_FORM

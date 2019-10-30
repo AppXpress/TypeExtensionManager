@@ -2,7 +2,7 @@ import needle from 'needle'
 import fs from 'fs'
 import cliProgress from 'cli-progress'
 import CONSTANTS from '../../constants'
-import {createFile, createFolder, writeToFile} from '../fileUtility'
+import {createFile, createFolder, writeJSONToFile} from '../fileUtility'
 import {fetchDocument} from './'
 
 const {
@@ -28,7 +28,7 @@ export default (essential, options, poNumber) => {
                 needle(GET, essential[CUSTOMER][QUERY_URL], options)
                 .then((result) => {
                     let quriedObject = result.body
-                    resolve(quriedObject)
+                        resolve(quriedObject)
                 })
                 .catch((err) =>{
                     reject(err)

@@ -1,55 +1,74 @@
 import {
     createFile,
     isFileExisting
-  } from '../fileUtility'
-  import CONSTANTS from '../../constants'
-  const {
+} from '../fileUtility'
+import CONSTANTS from '../../constants'
+import shell from 'shelljs'
+
+const {
     fields: {
-      CUSTOMER,
-      RULE_SET_TYPE,
-      CUSTOMER_NAME,
-      FILE,
-      CUSTOMER_DIRECTORY,
-      CUSTOMER_TEST_DIRECTORY
+        CUSTOMER,
+        RULE_SET_TYPE,
+        CUSTOMER_NAME,
+        FILE,
+        CUSTOMER_DIRECTORY,
+        CUSTOMER_TEST_DIRECTORY,
+        MODULE_NAME,
+        MODULE_PATH,
+        ADD_PLATFORM_FILE,
+        PMM_SAFE_FILE_REQUIRED
     },
     FILES: {
-      EXTENSIONS: {
-        JS,
-        SPEC
+        EXTENSIONS: {
+            JS,
+            SPEC
+        }
+    },
+    PLATFORM:{
+      FOLDERS:{
+          TYPE_EXTENSION_SCRIPT
       }
     },
     MESSAGES: {
-      INFO: {
-        COULD_NOT_CREATE_AXUS_TEST_FILE,
-        DATA_ALREADY_PRESENT
-      }
+        INFO: {
+            COULD_NOT_CREATE_AXUS_TEST_FILE,
+            DATA_ALREADY_PRESENT
+        }
     }
-  } = CONSTANTS
-  
-  
-  export default (essentials) => {
+} = CONSTANTS
+
+
+export default (essentials) => {
     return new Promise((resolve, reject) => {
-      if (essentials && essentials[CUSTOMER] && essentials[CUSTOMER][CUSTOMER_NAME] && essentials[CUSTOMER][RULE_SET_TYPE]) {
-        isFileExisting(`${essentials[FILE][CUSTOMER_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][RULE_SET_TYPE]}`, `${essentials[CUSTOMER][RULE_SET_TYPE]}`, `js`).then((isExisting) => {
-          console.log(DATA_ALREADY_PRESENT)
-          resolve()
-        }).catch((nonExisting) => {
-          createFile(`${essentials[FILE][CUSTOMER_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][RULE_SET_TYPE]}`, `${essentials[CUSTOMER][RULE_SET_TYPE]}`, `${JS}`).then((fileCreationStatus) => {
-              createFile(`${essentials[FILE][CUSTOMER_TEST_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][RULE_SET_TYPE]}`, `${essentials[CUSTOMER][RULE_SET_TYPE]}`, `${SPEC}`)
-                .then(() => {
-                  resolve()
-                })
-                .catch(() => {
-                  console.log(COULD_NOT_CREATE_AXUS_TEST_FILE)
-                  resolve()
-                })
+        if (essentials && essentials[CUSTOMER] && essentials[CUSTOMER][CUSTOMER_NAME] && essentials[CUSTOMER][MODULE_NAME]) {
+            isFileExisting(`${essentials[FILE][CUSTOMER_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}/${TYPE_EXTENSION_SCRIPT}`, `${essentials[CUSTOMER][RULE_SET_TYPE]}`, `${JS}`).then((isExisting) => {
+                if (isExisting) {
+                    essentials[CUSTOMER][MODULE_PATH] = `${essentials[FILE][CUSTOMER_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}`
+                    essentials[CUSTOMER][ADD_PLATFORM_FILE] = false
+                    console.log(DATA_ALREADY_PRESENT)
+                } else {
+                    createFile(`${essentials[FILE][CUSTOMER_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}/${TYPE_EXTENSION_SCRIPT}`, `${essentials[CUSTOMER][RULE_SET_TYPE]}`, `${JS}`).then((fileCreationStatus) => {
+                      essentials[CUSTOMER][ADD_PLATFORM_FILE] = true
+                        createFile(`${essentials[FILE][CUSTOMER_TEST_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}`, `${essentials[CUSTOMER][RULE_SET_TYPE]}`, `${SPEC}`)
+                            .then(() => {
+                                essentials[CUSTOMER][MODULE_PATH] = `${essentials[FILE][CUSTOMER_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}`
+                                resolve()
+                            })
+                            .catch(() => {
+                                console.log(COULD_NOT_CREATE_AXUS_TEST_FILE)
+                                resolve()
+                            })
+                    })
+                        .catch((fileCreationStatus) => {
+                            reject()
+                        })
+                }
+                resolve()
+            }).catch((nonExisting) => {
+                reject()
             })
-            .catch((fileCreationStatus) => {
-              reject()
-            })
-        })
-      } else {
-        reject()
-      }
+        } else {
+            reject()
+        }
     })
-  }
+}

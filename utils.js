@@ -1,13 +1,14 @@
 import CONSTANTS from './constants'
 import path from 'path'
 import Cryptr from 'cryptr'
+import setupPlatformFile from './utility/platformUtility/setupPlatformFile'
 
 const cryptr = new Cryptr('gtnexusisBest@123')
 
 const {
   createFile,
   readFile,
-  writeToFile,
+  writeJSONToFile,
   isFileExisting
 } = require('./utility/fileUtility')
 const {
@@ -22,6 +23,11 @@ const {
   setupSampleData,
   setupCustomerResources,
 } = require('./utility/customerUtility')
+
+const {
+  createPlatformFolders,
+  createPlatformFiles
+} = require('./utility/platformUtility')
 
 let {
   GENERAL: {
@@ -60,12 +66,23 @@ let {
 let initModules = () => {
   console.log(`HELP: npm start -- --h`)
   return new Promise((resolve, reject) => {
-    isFileExisting(`.`, `${configFile}`, `ini`).then((isExisting) => {
-      readFile(`.`, `${configFile}`, `ini`).then((data) => {
-        essentials = JSON.parse(data)
-        essentials[EXISTING] = isExisting
-        resolve(essentials)
-      })
+    isFileExisting(`.`, `${configFile}`, `.ini`).then((isExisting) => {
+      if(!isExisting){
+        createFile(`.`, `${configFile}`, `.ini`).then(() => {
+          essentials[EXISTING] = false
+          resolve(essentials)
+        })
+          .catch((err) => {
+            console.log(err)
+            reject()
+          })
+      }else{
+        readFile(`.`, `${configFile}`, `ini`).then((data) => {
+          essentials = JSON.parse(data)
+          essentials[EXISTING] = isExisting
+          resolve(essentials)
+        })
+      }
     }).catch((nonExistent) => {
       createFile(`.`, `${configFile}`, `.ini`).then(() => {
           essentials[EXISTING] = nonExistent
@@ -164,7 +181,7 @@ let getBasicKey = (essentials) => {
 let writeUserData = async () => {
   await getPlatformLocation()
   await getUserCredentials()
-  await writeToFile(`.`, `${configFile}`, `.ini`, writeOut)
+  await writeJSONToFile(`.`, `${configFile}`, `.ini`, writeOut)
 }
 /**
  * Process Customer - Gets all data required to setup TypeExtension and Axus
@@ -181,7 +198,16 @@ let processCustomer = (essentials) => {
     await setupSampleData(essentials)
     await setupCutomerBaseCode(essentials)
     await setupCustomerAxusCode(essentials)
-    await setupCustomerResources(essentials)
+    // await setupCustomerResources(essentials)
+    resolve()
+  })
+}
+
+let processPlatformModule = (essentials) => {
+  return new Promise(async (resolve, reject) => {
+    await createPlatformFolders(essentials)
+    await createPlatformFiles(essentials)
+    await setupPlatformFile(essentials)
     resolve()
   })
 }
@@ -191,5 +217,6 @@ export default {
   initModules,
   writeUserData,
   getBasicKey,
-  processCustomer
+  processCustomer,
+  processPlatformModule
 }

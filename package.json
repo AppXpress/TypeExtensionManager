@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "exit 0",
     "start": "babel-node TypeExtensionManager.js --presets es2015,stage-2"
   },
   "dependencies": {
@@ -15,7 +15,8 @@
     "node-cmd": "^3.0.0",
     "shelljs": "^0.8.3",
     "slash": "^3.0.0",
-    "upath": "^1.2.0"
+    "upath": "^1.2.0",
+    "xml-js": "^1.6.11"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

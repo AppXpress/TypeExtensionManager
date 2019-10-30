@@ -1,6 +1,9 @@
 import fs from 'fs';
-import moment from 'moment';
-import CONSTANTS from '../../constants';
+import moment from 'moment'
+import CONSTANTS from '../../constants'
+import {isFileExisting} from '../fileUtility'
+import {writeToFile} from '../fileUtility'
+
 const {
   fields: {
     CUSTOMER,
@@ -12,13 +15,19 @@ const {
     CUSTOMER_DIRECTORY,
     CUSTOMER_NAME,
     RULE_SET_TYPE,
-    EVENT
+    EVENT,
+    MODULE_NAME
   },
   FILES: {
     EXTENSIONS: {
       JS,
     }
   },
+    PLATFORM:{
+      FOLDERS:{
+        TYPE_EXTENSION_SCRIPT
+      }
+    },
   GENERAL: {
     DATE_FORMAT,
     WHO,
@@ -35,19 +44,27 @@ const {
 } = CONSTANTS
 
 export default (essentials) => {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     if (essentials && essentials[CUSTOMER][DOC_SHORT_FORM] && essentials[CUSTOMER][JIRA_NUMBER]) {
       let jiraNumber = essentials[CUSTOMER][JIRA_NUMBER]
       let date = `${moment().format(DATE_FORMAT)}`
       let who = `${essentials[USER][USER_NAME].charAt(0).toUpperCase()}${essentials[USER][USER_NAME].charAt(1).toUpperCase()}` || WHO
       let description = `${DESCRIPTION}`
       let code = constructCode(essentials, jiraNumber, date, who, description)
-      let data = fs.readFileSync(`${essentials[FILE][CUSTOMER_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][RULE_SET_TYPE]}/${essentials[CUSTOMER][RULE_SET_TYPE]}${JS}`, ENCODING_UTF8)
-      if (data && data != ``) {
-        console.log(DATA_ALREADY_PRESENT)
-        resolve()
+      let boolIsFileExisting = await isFileExisting(`${essentials[FILE][CUSTOMER_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}/${TYPE_EXTENSION_SCRIPT}`,`${essentials[CUSTOMER][RULE_SET_TYPE]}`,`${JS}`)
+      if (boolIsFileExisting)  {
+        let data = fs.readFileSync(`${essentials[FILE][CUSTOMER_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}/${TYPE_EXTENSION_SCRIPT}/${essentials[CUSTOMER][RULE_SET_TYPE]}${JS}`)
+        if(data.length != 0){
+          console.log(DATA_ALREADY_PRESENT)
+          resolve()
+        }else{
+          writeToFile(`${essentials[FILE][CUSTOMER_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}/${TYPE_EXTENSION_SCRIPT}`, `${essentials[CUSTOMER][RULE_SET_TYPE]}`, `${JS}`, code)
+          // fs.writeFileSync(`${essentials[FILE][CUSTOMER_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}/${TYPE_EXTENSION_SCRIPT}/${essentials[CUSTOMER][RULE_SET_TYPE]}${JS}`, code)
+          resolve()
+        }
       } else {
-        fs.writeFileSync(`${essentials[FILE][CUSTOMER_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][RULE_SET_TYPE]}/${essentials[CUSTOMER][RULE_SET_TYPE]}${JS}`, code)
+        writeToFile(`${essentials[FILE][CUSTOMER_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}/${TYPE_EXTENSION_SCRIPT}`, `${essentials[CUSTOMER][RULE_SET_TYPE]}`, `${JS}`, code)
+        // fs.writeFileSync(`${essentials[FILE][CUSTOMER_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}/${TYPE_EXTENSION_SCRIPT}/${essentials[CUSTOMER][RULE_SET_TYPE]}${JS}`, code)
         console.log(`${TYPE_EXTENSION_INITIAL_CODE_SETUP}`)
         resolve()
       }
@@ -61,27 +78,26 @@ export default (essentials) => {
 
 let constructCode = (essentials, jiraNumber, date, who, description) => {
   let eventType = `${essentials[CUSTOMER][EVENT]}`
-  let sampleCode = `
+  let sampleCode = `/**
+*   C H A N G E    L  O G
+*
+*  (B)ug/(E)nh/(I)DB #    Date      Who  Description
+*  -------------------  ----------  ---  ---------------------------------------------------------------
+*	${jiraNumber}\t\t\t\t\t\t ${date}\t\t${who}\t${description}
+*/
+function fnOn${eventType}(${(essentials[CUSTOMER][DOC_SHORT_FORM]).toLowerCase()}){
   /**
-   *   C H A N G E    L  O G
-   *
-   *  (B)ug/(E)nh/(I)DB #    Date      Who  Description
-   *  -------------------  ----------  ---  ---------------------------------------------------------------
-   *	${jiraNumber}\t\t\t\t\t\t ${date}\t\t${who}\t${description}
+   * THIS IS AUTO GENERATED 
    */
-    function fnOn${eventType}(${(essentials[CUSTOMER][DOC_SHORT_FORM]).toLowerCase()}){
-      /**
-       * THIS IS AUTO GENERATED 
-       */
-      console.log(${(essentials[CUSTOMER][DOC_SHORT_FORM]).toLowerCase()})
-    }
-    \n\n\n\n\n\n\n\n\n
-    //Utility
-    function getObjectByUid(uid, objectType) { //Can be used as getObjectByUid('123456', ${(essentials[CUSTOMER][DOC_SHORT_FORM]).toLowerCase()})
-      if (uid) {
-        return Providers.getPersistenceProvider().createFetchRequest(objectType, 310, uid).execute();
-      }
-    }
+  console.log(${(essentials[CUSTOMER][DOC_SHORT_FORM]).toLowerCase()});
+}
+\n\n\n\n\n\n\n\n\n
+//Utility
+function getObjectByUid(uid, objectType) { //Can be used as getObjectByUid('123456', ${(essentials[CUSTOMER][DOC_SHORT_FORM]).toLowerCase()})
+  if (uid) {
+    return Providers.getPersistenceProvider().createFetchRequest(objectType, 310, uid).execute();
+  }
+}
     `
-  return '\uFEFF' + sampleCode.replace(/\n/g, '\r\n')
+  return sampleCode.replace(/\n/g, '\r\n')
 }
