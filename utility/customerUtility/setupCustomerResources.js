@@ -1,6 +1,8 @@
 import fs from 'fs'
 import CONSTANTS from '../../constants'
 import moment from 'moment'
+import {writeToFile} from '../fileUtility'
+
 const {
   fields: {
     CUSTOMER,
@@ -54,7 +56,8 @@ export default (essentials) => {
       if (data && data != ``) {
         resolve()
       } else {
-        fs.writeFileSync(`${essentials[FILE][CUSTOMER_TEST_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}/${essentials[CUSTOMER][RULE_SET_TYPE]}${SPEC}`, code)
+        writeToFile(`${essentials[FILE][CUSTOMER_TEST_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}`,`${essentials[CUSTOMER][RULE_SET_TYPE]}`,`${SPEC}`, code)
+        // fs.writeFileSync(`${essentials[FILE][CUSTOMER_TEST_DIRECTORY]}/${essentials[CUSTOMER][CUSTOMER_NAME]}/${essentials[CUSTOMER][MODULE_NAME]}/${essentials[CUSTOMER][RULE_SET_TYPE]}${SPEC}`, code)
         resolve()
       }
     } else {

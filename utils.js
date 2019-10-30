@@ -8,7 +8,7 @@ const cryptr = new Cryptr('gtnexusisBest@123')
 const {
   createFile,
   readFile,
-  writeToFile,
+  writeJSONToFile,
   isFileExisting
 } = require('./utility/fileUtility')
 const {
@@ -181,7 +181,7 @@ let getBasicKey = (essentials) => {
 let writeUserData = async () => {
   await getPlatformLocation()
   await getUserCredentials()
-  await writeToFile(`.`, `${configFile}`, `.ini`, writeOut)
+  await writeJSONToFile(`.`, `${configFile}`, `.ini`, writeOut)
 }
 /**
  * Process Customer - Gets all data required to setup TypeExtension and Axus

@@ -1,6 +1,6 @@
 import CONSTANTS from '../../constants'
 import cmd from 'node-cmd'
-import {createFile, createFolder, writeToFile} from '../fileUtility'
+import {createFile, createFolder, writeJSONToFile} from '../fileUtility'
 const {
     rl,
     QUESTIONS:{QUESTION_RULESET_TYPE},

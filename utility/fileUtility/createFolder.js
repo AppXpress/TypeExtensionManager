@@ -1,6 +1,6 @@
 import CONSTANTS from '../../constants'
 import shell from 'shelljs'
-import node_path from 'upath'
+import node_path from 'path'
 
 const {MESSAGES:{ERRORS:{FILE_CREATION_ERROR}}} = CONSTANTS
 
@@ -8,7 +8,7 @@ export default (path) => {
     return new Promise((resolve, reject) => {
         if(path){
             try {
-                const absolutePath = node_path.toUnix(`${path}`)
+                const absolutePath = node_path.resolve(`${path}`)
                 if(shell.mkdir('-p', `${absolutePath}`).code == 0){
                     resolve(`${path} sucessfully created`)
                 }

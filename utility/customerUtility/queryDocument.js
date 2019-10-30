@@ -2,7 +2,7 @@ import needle from 'needle'
 import fs from 'fs'
 import cliProgress from 'cli-progress'
 import CONSTANTS from '../../constants'
-import {createFile, createFolder, writeToFile} from '../fileUtility'
+import {createFile, createFolder, writeJSONToFile} from '../fileUtility'
 import {fetchDocument} from './'
 
 const {

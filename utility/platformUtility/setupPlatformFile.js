@@ -3,7 +3,7 @@ import CONSTANTS from '../../constants'
 import moment from 'moment'
 import fs from 'fs'
 import shell from 'shelljs'
-import {isFileExisting} from "../fileUtility";
+import {writeToFile} from '../fileUtility'
 
 
 const {
@@ -305,7 +305,8 @@ export default (essentials) => {
             try {
                 let result = xmljsonParser.json2xml(JSON.parse(platformData), options);
                 essentials[CUSTOMER][PLATFORM_FILE] = result
-                fs.writeFileSync(`${essentials[CUSTOMER][MODULE_PATH]}/${$TYPE_EXTENSION_D1}/${FILES.GET_FILE_NAME}${XML}`, essentials[CUSTOMER][PLATFORM_FILE])
+                writeToFile(`${essentials[CUSTOMER][MODULE_PATH]}`, `${$TYPE_EXTENSION_D1}/${FILES.GET_FILE_NAME}`, `${XML}`, essentials[CUSTOMER][PLATFORM_FILE])
+                // fs.writeFileSync(`${essentials[CUSTOMER][MODULE_PATH]}/${$TYPE_EXTENSION_D1}/${FILES.GET_FILE_NAME}${XML}`, essentials[CUSTOMER][PLATFORM_FILE])
                 if(essentials[CUSTOMER][PMM_SAFE_FILE_REQUIRED]){
                     shell.mkdir(`-p`, `${essentials[CUSTOMER][MODULE_PATH]}/${TYPE_EXTENSION_SCRIPT}/${essentials[CUSTOMER][MODULE_NAME]}${BUNDLE}`)
                     shell.mv( `${essentials[CUSTOMER][MODULE_PATH]}/${TYPE_EXTENSION_SCRIPT}/*.js`, `${essentials[CUSTOMER][MODULE_PATH]}/${TYPE_EXTENSION_SCRIPT}/${essentials[CUSTOMER][MODULE_NAME]}${BUNDLE}`)
@@ -335,11 +336,12 @@ ownerId=
     if(boolMetaProperties){
         let metaPropertiesData = fs.readFileSync(`${essentials[CUSTOMER][MODULE_PATH]}/${METADATA_PROPERTIES}${PROPERTIES}`)
         if(metaPropertiesData.length === 0){
-
-            fs.writeFileSync(`${essentials[CUSTOMER][MODULE_PATH]}/${METADATA_PROPERTIES}${PROPERTIES}`, metaProperties)
+            writeToFile(`${essentials[CUSTOMER][MODULE_PATH]}`, `${METADATA_PROPERTIES}`, `${PROPERTIES}`, metaProperties)
+            // fs.writeFileSync(`${essentials[CUSTOMER][MODULE_PATH]}/${METADATA_PROPERTIES}${PROPERTIES}`, metaProperties)
         }
     }else{
-        fs.writeFileSync(`${essentials[CUSTOMER][MODULE_PATH]}/${METADATA_PROPERTIES}${PROPERTIES}`, metaProperties)
+        writeToFile(`${essentials[CUSTOMER][MODULE_PATH]}`, `${METADATA_PROPERTIES}`, `${PROPERTIES}`, metaProperties)
+        // fs.writeFileSync(`${essentials[CUSTOMER][MODULE_PATH]}/${METADATA_PROPERTIES}${PROPERTIES}`, metaProperties)
     }
 }
 
@@ -355,11 +357,12 @@ export.timestamp=
     if(boolMetaProperties){
         let metaPropertiesData = fs.readFileSync(`${essentials[CUSTOMER][MODULE_PATH]}/${PLATFORM_LOCALIZATION}/${METADATA_PROPERTIES}${PROPERTIES}`)
         if(metaPropertiesData.length === 0){
-
-            fs.writeFileSync(`${essentials[CUSTOMER][MODULE_PATH]}/${PLATFORM_LOCALIZATION}/${METADATA_PROPERTIES}${PROPERTIES}`, metaProperties)
+            writeToFile(`${essentials[CUSTOMER][MODULE_PATH]}/${PLATFORM_LOCALIZATION}`,`${METADATA_PROPERTIES}`,`${PROPERTIES}`, metaProperties)
+            // fs.writeFileSync(`${essentials[CUSTOMER][MODULE_PATH]}/${PLATFORM_LOCALIZATION}/${METADATA_PROPERTIES}${PROPERTIES}`, metaProperties)
         }
     }else{
-        fs.writeFileSync(`${essentials[CUSTOMER][MODULE_PATH]}/${PLATFORM_LOCALIZATION}/${METADATA_PROPERTIES}${PROPERTIES}`, metaProperties)
+        writeToFile(`${essentials[CUSTOMER][MODULE_PATH]}/${PLATFORM_LOCALIZATION}`,`${METADATA_PROPERTIES}`,`${PROPERTIES}`, metaProperties)
+        // fs.writeFileSync(`${essentials[CUSTOMER][MODULE_PATH]}/${PLATFORM_LOCALIZATION}/${METADATA_PROPERTIES}${PROPERTIES}`, metaProperties)
     }
 }
 
@@ -580,8 +583,9 @@ let setupPlatformModuleFile = (essentials) =>{
         }else{
             let options = {compact: false, ignoreComment: true, spaces: 4};
             try {
-                let result = xmljsonParser.json2xml(JSON.parse(platformModuleFile), options);
-                fs.writeFileSync(`${essentials[CUSTOMER][MODULE_PATH]}/${PLATFORM_MODULE}${XML}`, result)
+                let result = xmljsonParser.json2xml(JSON.parse(platformModuleFile), options)
+                writeToFile(`${essentials[CUSTOMER][MODULE_PATH]}`,`${PLATFORM_MODULE}`,`${XML}`, result)
+                // fs.writeFileSync(`${essentials[CUSTOMER][MODULE_PATH]}/${PLATFORM_MODULE}${XML}`, result)
             } catch (parseError) {
 
             }

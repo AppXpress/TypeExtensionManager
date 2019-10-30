@@ -1,12 +1,14 @@
 import fs from 'fs'
+import node_path from 'path'
 
 export default (path, fileName, fileExtension) => {
     return new Promise((resolve, reject) => {
         if(path && fileExtension && fileName){
             try{
-                const isFileExisting = fs.existsSync(`${path}/${fileName}${fileExtension}`)
+                const absoultePath = node_path.resolve(`${path}`, `${fileName}${fileExtension}`)
+                const isFileExisting = fs.existsSync(`${absoultePath}`)
                 if(isFileExisting){
-                    let data = fs.readFileSync(`${path}/${fileName}${fileExtension}`, 'utf8')
+                    let data = fs.readFileSync(`${absoultePath}`, 'utf8')
                     if(data){
                         resolve(true)
                     }else if(data.length === 0){

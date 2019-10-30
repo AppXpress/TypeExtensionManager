@@ -2,7 +2,7 @@ import needle from 'needle'
 import fs from 'fs'
 import cliProgress from 'cli-progress'
 import CONSTANTS from '../../constants'
-import {createFile, createFolder, writeToFile} from '../fileUtility'
+import {writeToFile} from '../fileUtility'
 const {
     rl,
     QUESTIONS:{QUESTION_RULESET_TYPE},
